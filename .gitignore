@@ -1,0 +1,4 @@
+*.swp
+cache/*.php
+tool-config.php
+.sass-cache/
