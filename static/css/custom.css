@@ -1,5 +1,26 @@
-/*
+   .row {
+      margin-left: -15px;
+      margin-right: -15px;
+   }
 
-Coming soon!
+   .key .keys {
+      background-color: #e6e6e6;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      cursor: pointer;
+      height: 35px;
+      width: 35px;
+   }
 
-*/
+   .keys .key>a,
+   .globalsite.cmp-globalsite-glossarysearch .keys .numkey>a {
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 20px;
+      text-align: center;
+      color: #0052d6;
+      display: block;
+      cursor: pointer;
+   }

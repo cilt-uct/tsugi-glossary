@@ -1,16 +1,15 @@
 <?php
-
 // To allow this to be called directly or from admin/upgrade.php
-if ( !isset($PDOX) ) {
+if (!isset($PDOX)) {
     require_once "../config.php";
     $CURRENT_FILE = __FILE__;
-    require $CFG->dirroot."/admin/migrate-setup.php";
+    require $CFG->dirroot . "/admin/migrate-setup.php";
 }
 
 // The SQL to uninstall this tool
 $DATABASE_UNINSTALL = array(
     "drop table if exists {$CFG->dbprefix}glossary_site",
-     "drop table if exists {$CFG->dbprefix}glossary_user",
+    "drop table if exists {$CFG->dbprefix}glossary_user",
     "drop table if exists {$CFG->dbprefix}glossary_domain",
     "drop table if exists {$CFG->dbprefix}glossary_term",
     "drop table if exists {$CFG->dbprefix}glossary_term_translation",
@@ -23,9 +22,9 @@ $DATABASE_UNINSTALL = array(
 
 // The SQL to create the tables if they don't exist
 $DATABASE_INSTALL = array(
-array(  
-    "{$CFG->dbprefix}glossary_site",
-    "CREATE TABLE `{$CFG->dbprefix}glossary_site` (
+    array(
+        "{$CFG->dbprefix}glossary_site",
+        "CREATE TABLE `{$CFG->dbprefix}glossary_site` (
         `link_id` int NOT NULL DEFAULT '0',
         `user_id` int NOT NULL DEFAULT '0',
 
@@ -37,9 +36,10 @@ array(
 
         UNIQUE KEY `link_id` (`link_id`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
-),  
-array( "{$CFG->dbprefix}glossary_user",
-"CREATE TABLE `{$CFG->dbprefix}glossary_user` (
+    ),
+    array(
+        "{$CFG->dbprefix}glossary_user",
+        "CREATE TABLE `{$CFG->dbprefix}glossary_user` (
     `link_id` int(11) NOT NULL,
     
     // Add more fields later
@@ -49,12 +49,12 @@ array( "{$CFG->dbprefix}glossary_user",
     // Set constraint later
 
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;"
-),
-  // Add other tables later
+    ),
+    // Add other tables later
 );
 
 // Database upgrade
-$DATABASE_UPGRADE = function($oldversion) {
+$DATABASE_UPGRADE = function ($oldversion) {
     global $CFG, $PDOX;
 
     // This is a place to make sure added fields are present
@@ -71,9 +71,9 @@ $DATABASE_UPGRADE = function($oldversion) {
         array('migration_site', 'report', 'DROP')
     );
 
-    foreach ( $add_some_fields as $add_field ) {
-        if (count($add_field) != 3 ) {
-            echo("Badly formatted add_field");
+    foreach ($add_some_fields as $add_field) {
+        if (count($add_field) != 3) {
+            echo ("Badly formatted add_field");
             var_dump($add_field);
             continue;
         }
@@ -81,21 +81,24 @@ $DATABASE_UPGRADE = function($oldversion) {
         $column = $add_field[1];
         $type = $add_field[2];
         $sql = false;
-        if ( $PDOX->columnExists($column, $CFG->dbprefix.$table ) ) {
-            if ( $type == 'DROP' ) {
-                $sql= "ALTER TABLE {$CFG->dbprefix}$table DROP COLUMN $column";
+        if ($PDOX->columnExists($column, $CFG->dbprefix . $table)) {
+            if ($type == 'DROP') {
+                $sql = "ALTER TABLE {$CFG->dbprefix}$table DROP COLUMN $column";
             } else {
                 // continue;
-                $sql= "ALTER TABLE {$CFG->dbprefix}$table MODIFY $column $type";
+                $sql = "ALTER TABLE {$CFG->dbprefix}$table MODIFY $column $type";
             }
         } else {
-            if ( $type == 'DROP' ) continue;
-            $sql= "ALTER TABLE {$CFG->dbprefix}$table ADD $column $type";
+            if ($type == 'DROP')
+                continue;
+            $sql = "ALTER TABLE {$CFG->dbprefix}$table ADD $column $type";
         }
-        echo("Upgrading: ".$sql."<br/>\n");
-        error_log("Upgrading: ".$sql);
+        echo ("Upgrading: " . $sql . "<br/>\n");
+        error_log("Upgrading: " . $sql);
         $q = $PDOX->queryReturnError($sql);
     }
 
     return 202210211000;
 }; // Don't forget the semicolon on anonymous functions :)
+
+?>
