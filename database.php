@@ -28,27 +28,27 @@ $DATABASE_INSTALL = array(
         `link_id` int NOT NULL DEFAULT '0',
         `user_id` int NOT NULL DEFAULT '0',
 
-        // Add more fields later
+        -- Add more fields later
 
-        // Set primary key later
+        -- Set primary key later
 
-        // Set constraint later
+        -- Set constraint later
 
         UNIQUE KEY `link_id` (`link_id`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
     ),
     array(
         "{$CFG->dbprefix}glossary_user",
         "CREATE TABLE `{$CFG->dbprefix}glossary_user` (
-    `link_id` int(11) NOT NULL,
-    
-    // Add more fields later
+        `link_id` int(11) NOT NULL
+        
+        -- Add more fields later
 
-    // Set primary key later
+        -- Set primary key later
 
-    // Set constraint later
+        -- Set constraint later
 
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;"
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
     ),
     // Add other tables later
 );
