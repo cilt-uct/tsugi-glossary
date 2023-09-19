@@ -25,17 +25,21 @@ $DATABASE_INSTALL = array(
     array(
         "{$CFG->dbprefix}glossary_site",
         "CREATE TABLE `{$CFG->dbprefix}glossary_site` (
-        `link_id` int NOT NULL DEFAULT '0',
-        `user_id` int NOT NULL DEFAULT '0',
-
-        -- Add more fields later
-
-        -- Set primary key later
-
-        -- Set constraint later
-
+        `link_id` int NOT NULL,
+        `site_id` varchar(99) NOT NULL,
+        `settings` text NOT NULL,
+        `is_admin` tinyint(1) NOT NULL DEFAULT '0',
+        `title` varchar(99) DEFAULT NULL,
         UNIQUE KEY `link_id` (`link_id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;"
+    ),
+    array(
+        "{$CFG->dbprefix}glossary_languages",
+        "CREATE TABLE `glossary_languages` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+            PRIMARY KEY (`id`)
+          ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;"
     ),
     array(
         "{$CFG->dbprefix}glossary_user",
@@ -60,15 +64,15 @@ $DATABASE_UPGRADE = function ($oldversion) {
     // This is a place to make sure added fields are present
     // if you add a field to a table, put it in here and it will be auto-added
     $add_some_fields = array(
-        array('glossary_site', 'is_admin', 'TINYINT(1) NOT NULL DEFAULT 0'),
+        // array('glossary_site', 'is_admin', 'TINYINT(1) NOT NULL DEFAULT 0'),
 
-        array('glossary_site', 'link_id', 'int(11) NOT NULL'),
-        array('glossary_site', 'site_id', 'VARCHAR(99) NOT NULL'),
-        array('glossary_site', 'title', 'VARCHAR(99) DEFAULT NULL'),
-        // will add more fields later
+        // array('glossary_site', 'link_id', 'int(11) NOT NULL'),
+        // array('glossary_site', 'site_id', 'VARCHAR(99) NOT NULL'),
+        // array('glossary_site', 'title', 'VARCHAR(99) DEFAULT NULL'),
+        // // will add more fields later
 
-        // drop report
-        array('migration_site', 'report', 'DROP')
+        // // drop report
+        // array('migration_site', 'report', 'DROP')
     );
 
     foreach ($add_some_fields as $add_field) {

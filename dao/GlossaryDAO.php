@@ -11,15 +11,13 @@ class GlossaryDAO {
     }
    
     // getAllDomains
-    // returns glossary_domain
+    // returns glossary_domains
     function getAllDomain($domain_id = 0, $limit = 0, $offset = 0) {   
 
         $arr = array();
         $query = "SELECT `def`.`id`,`domain`.`name` as `domain_name`,`def`.`term`,`def`.`definition` 
                     FROM `{$this->p}glossary_definition` `def` 
-                    LEFT JOIN `{$this->p}glossary_domain` `domain` on `domain`.`id` = `def`.`domain_id`
-                    LIMIT 9";
-                    
+                    LEFT JOIN `{$this->p}glossary_domains` `domain` on `domain`.`id` = `def`.`domain_id`";           
 
         if ($domain_id > 0) {
             $query .= "WHERE `domain_id`=:domain_id";
@@ -34,7 +32,8 @@ class GlossaryDAO {
         $arr = array();
         $query = "SELECT `def`.`id`,`domain`.`name` as `domain_name`,`def`.`term`,`def`.`definition` 
                     FROM `{$this->p}glossary_definition` `def` 
-                    LEFT JOIN `{$this->p}glossary_domain` `domain` on `domain`.`id` = `def`.`domain_id`";
+                    LEFT JOIN `{$this->p}glossary_domains` `domain` on `domain`.`id` = `def`.`domain_id`
+                    LIMIT 9";
 
         if ($domain_id > 0) {
             $query .= "WHERE `domain_id`=:domain_id";

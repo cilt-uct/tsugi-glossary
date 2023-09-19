@@ -1,5 +1,15 @@
+<style>
+  ul {
+    -webkit-column-count: 3;
+    /* -moz-column-count: 3; */
+    column-count: 3;
+    float: left;
+    /* width: 33.33%; */
+  }
+</style>
+
 <section>
-<div class="emt-container-inner">
+  <div class="emt-container-inner">
     <div class="root responsivegrid">
       <div class="aem-Grid aem-Grid--12 aem-Grid--default--12 ">
         <div class="responsivegrid aem-GridColumn aem-GridColumn--default--12">
@@ -10,20 +20,20 @@
                   .heroImageParent-1692692311087>div {
                     background-image: url('');
                   }
-  
+
                   @media all and (max-width: 767.98px) {
                     .heroImageParent-1692692311087 {
                       display: none;
                     }
                   }
-  
+
                   .heroImageNoRepeatParent-1692692311087>div {
                     background-image: url('');
                     background-position: center;
                     background-repeat: no-repeat;
                     background-size: cover;
                   }
-  
+
                   @media all and (max-width: 767.98px) {
                     .heroImageNoRepeatParent-1692692311087 {
                       display: none;
@@ -31,7 +41,7 @@
                   }
                 </style>
                 <!-- simpletexteyebrow -->
-  
+
                 <!-- simpletexteyebrow Template -->
                 <div class="simpletexteyebrow display-flex grid-full no-top hero-mb" style="background-color: #F4F4F4;">
                   <div class="hero-content grid-wide no-top-bottom">
@@ -49,153 +59,46 @@
             </div>
             <div
               class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
-              <section class="grid-norm  ">
-                <h2>Top Accounting Terms</h2>
+              <h2>Top Accounting Terms</h2>
+              <section class="grid-norm no-top  ">
                 <div class="row hidden-sm">
                   <div class="col-md-4">
-                    <ul> 
-                      <!-- foreach domain > for each term in domain -->
+                    <div class="row">
+                      <div class="col-md-1 col-sm-3">
+                        <ul>
+                          <!-- foreach domain > for each term in domain -->
                           {% foreach ($displayDomains as $x => $val) { %}
-                          <li>{{$val['term'] }}</a></li>
+                          <li>{{$val['term'] }}</li>
                           {% } %}
-                    </ul>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
+                </div>
               </section>
             </div>
             <div
               class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
               <section class="grid-norm no-top ">
-                <h2>Human Resources Trending Terms</h2>
+                <h2>Botany Trending Terms</h2>
                 <div class="row hidden-sm">
                   <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/attrition" class="p-small">Attrition</a>
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/diversity-and-inclusion-d-i-" class="p-small">Diversity and
-                          Inclusion (D&amp;I)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/future-of-work" class="p-small">Future
-                          of Work</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/hr-strategic-planning" class="p-small">HR Strategic
-                          Planning</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/hybrid-work" class="p-small">Hybrid Work</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/johari-window" class="p-small">Johari
-                          Window</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/performance-improvement-plan-pip-"
-                          class="p-small">Performance Improvement Plan (PIP)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/quiet-quitting" class="p-small">Quiet
-                          Quitting</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/workforce-diversity" class="p-small">Workforce Diversity</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row hidden-md hidden-xs hidden-lg">
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/attrition" class="p-small">Attrition</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/diversity-and-inclusion-d-i-" class="p-small">Diversity and
-                          Inclusion (D&amp;I)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/future-of-work" class="p-small">Future
-                          of Work</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/hr-strategic-planning" class="p-small">HR Strategic
-                          Planning</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/hybrid-work" class="p-small">Hybrid Work</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/johari-window" class="p-small">Johari
-                          Window</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/performance-improvement-plan-pip-"
-                          class="p-small">Performance Improvement Plan (PIP)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/quiet-quitting" class="p-small">Quiet
-                          Quitting</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/human-resources/glossary/workforce-diversity" class="p-small">Workforce Diversity</a>
-                      </div>
-                    </div>
+                    </section>
                   </div>
                 </div>
                 <div class="glossary-related-term-cta">
@@ -203,7 +106,7 @@
                     <div class="light-bg" align="left">
                       <a data-en-title="Visit HR Glossary" data-placement="auto" href="/en/human-resources/glossary"
                         role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
-                        Visit HR Glossary
+                        Visit Botany Glossary
                       </a>
                     </div>
                   </div>
@@ -213,137 +116,25 @@
             <div
               class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
               <section class="grid-norm no-top ">
-                <h2>Information Technology Trending Terms</h2>
+                <h2>Chemistry Trending Terms</h2>
                 <div class="row hidden-sm">
                   <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/artificial-general-intelligence-agi"
-                          class="p-small">Artificial general intelligence (AGI)</a>
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/artificial-intelligence" class="p-small">Artificial
-                          Intelligence (AI)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/deep-learning" class="p-small">Deep Learning</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/enterprise-architecture-ea"
-                          class="p-small">Enterprise Architecture (EA)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/generative-adversarial-networks-gan"
-                          class="p-small">Generative Adversarial Networks Gan</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/generative-pretrained-transformer-4-gpt-4"
-                          class="p-small">Generative Pretrained Transformer 4 (GPT-4)</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/it-strategy" class="p-small">IT
-                          Strategy</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/large-language-models-llm" class="p-small">Large
-                          Language Models (LLMs)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/sales-analytics" class="p-small">Sales Analytics</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row hidden-md hidden-xs hidden-lg">
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/artificial-general-intelligence-agi"
-                          class="p-small">Artificial general intelligence (AGI)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/artificial-intelligence" class="p-small">Artificial
-                          Intelligence (AI)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/deep-learning" class="p-small">Deep Learning</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/enterprise-architecture-ea"
-                          class="p-small">Enterprise Architecture (EA)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/generative-adversarial-networks-gan"
-                          class="p-small">Generative Adversarial Networks Gan</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/generative-pretrained-transformer-4-gpt-4"
-                          class="p-small">Generative Pretrained Transformer 4 (GPT-4)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/it-strategy" class="p-small">IT
-                          Strategy</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/large-language-models-llm" class="p-small">Large
-                          Language Models (LLMs)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/information-technology/glossary/sales-analytics" class="p-small">Sales Analytics</a>
-                      </div>
-                    </div>
+                    </section>
                   </div>
                 </div>
                 <div class="glossary-related-term-cta">
@@ -352,7 +143,7 @@
                       <a data-en-title="Visit IT Glossary" data-placement="auto"
                         href="/en/information-technology/glossary" role="button"
                         class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
-                        Visit IT Glossary
+                        Visit Chemistry Glossary
                       </a>
                     </div>
                   </div>
@@ -361,149 +152,34 @@
             </div>
             <div
               class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
-  
-  
-  
-  
               <section class="grid-norm no-top ">
-                <h2>Marketing Trending Terms</h2>
+                <h2>Computer Science Trending Terms</h2>
                 <div class="row hidden-sm">
                   <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/chief-marketing-officer-cmo-" class="p-small">Chief Marketing
-                          Officer (CMO)</a>
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/email-marketing" class="p-small">Email
-                          Marketing</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/marketing-channel" class="p-small">Marketing
-                          Channel</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/marketing-technology" class="p-small">Marketing Technology</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/mobile-marketing" class="p-small">Mobile
-                          Marketing</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/omnichannel" class="p-small">Omnichannel</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/search-engine-optimization-seo-" class="p-small">Search Engine
-                          Optimization (SEO)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/social-media-analytics" class="p-small">Social Media Analytics</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/social-media-marketing" class="p-small">Social Media Marketing</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row hidden-md hidden-xs hidden-lg">
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/chief-marketing-officer-cmo-" class="p-small">Chief Marketing
-                          Officer (CMO)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/email-marketing" class="p-small">Email
-                          Marketing</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/marketing-channel" class="p-small">Marketing
-                          Channel</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/marketing-technology" class="p-small">Marketing Technology</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/mobile-marketing" class="p-small">Mobile
-                          Marketing</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/omnichannel" class="p-small">Omnichannel</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/search-engine-optimization-seo-" class="p-small">Search Engine
-                          Optimization (SEO)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/social-media-analytics" class="p-small">Social Media Analytics</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/marketing/glossary/social-media-marketing" class="p-small">Social Media Marketing</a>
-                      </div>
-                    </div>
+                    </section>
                   </div>
                 </div>
                 <div class="glossary-related-term-cta">
                   <div class="grid-norm no-top-bottom rmg-b30 ">
-  
                     <div class="light-bg" align="left">
                       <a data-en-title="Visit Marketing Glossary" data-placement="auto" href="/en/marketing/glossary"
                         role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
-                        Visit Marketing Glossary
+                        Visit Computer Science Glossary
                       </a>
                     </div>
                   </div>
@@ -513,138 +189,25 @@
             <div
               class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
               <section class="grid-norm no-top ">
-                <h2>Sales Trending Terms</h2>
+                <h2>Economics Trending Terms</h2>
                 <div class="row hidden-sm">
                   <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/customer-segmentation" class="p-small">Customer
-                          Segmentation</a>
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/pipeline-velocity" class="p-small">Pipeline
-                          Velocity</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/revenue-operations" class="p-small">Revenue
-                          Operations</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-funnel" class="p-small">Sales Funnel</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-intelligence" class="p-small">Sales
-                          Intelligence</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-pipeline" class="p-small">Sales
-                          Pipeline</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-strategy" class="p-small">Sales
-                          Strategy</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-qualified-lead-sql-" class="p-small">Sales-Qualified Lead
-                          (SQL)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sense-making" class="p-small">Sense Making</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row hidden-md hidden-xs hidden-lg">
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/customer-segmentation" class="p-small">Customer
-                          Segmentation</a>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/pipeline-velocity" class="p-small">Pipeline
-                          Velocity</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/revenue-operations" class="p-small">Revenue
-                          Operations</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-funnel" class="p-small">Sales Funnel</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-intelligence" class="p-small">Sales
-                          Intelligence</a>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-pipeline" class="p-small">Sales
-                          Pipeline</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-strategy" class="p-small">Sales
-                          Strategy</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sales-qualified-lead-sql-" class="p-small">Sales-Qualified Lead
-                          (SQL)</a>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <a href="/en/sales/glossary/sense-making" class="p-small">Sense Making</a>
-                      </div>
-                    </div>
+                    </section>
                   </div>
                 </div>
                 <div class="glossary-related-term-cta">
@@ -652,7 +215,525 @@
                     <div class="light-bg" align="left">
                       <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
                         role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
-                        Visit Sales Glossary
+                        Visit Economics Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Environmental and Geographical Science Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Envi and Geo Sc Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Film and Media Studies Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Film and Media Studies Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Health Sciences Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Health Sciences Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Law Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Law Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Linguistics and Literature Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Lings and Lit Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Maths and Statistics Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Maths & Stats Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Music Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Music Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Philosophy Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Philosophy Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Physics Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Physics Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Political Studies Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Political Studies Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Psychology Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Psychology Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Social Development Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Social Development Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Sociology Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Sociology Glossary
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div
+              class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
+              <section class="grid-norm no-top ">
+                <h2>Zoology Trending Terms</h2>
+                <div class="row hidden-sm">
+                  <div class="col-md-4">
+                    <section class="grid-norm no-top  ">
+                      <div class="row hidden-sm">
+                        <div class="col-md-4">
+                          <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                              <ul>
+                                <!-- foreach domain > for each term in domain -->
+                                {% foreach ($displayDomains as $x => $val) { %}
+                                <li>{{$val['term'] }}</li>
+                                {% } %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+                <div class="glossary-related-term-cta">
+                  <div class="grid-norm no-top-bottom rmg-b30 ">
+                    <div class="light-bg" align="left">
+                      <a data-en-title="Visit Sales Glossary" data-placement="auto" href="/en/sales/glossary"
+                        role="button" class=" btn btBtn btnNormalWidth btn-secondary  " target="_self">
+                        Visit Zoology Glossary
                       </a>
                     </div>
                   </div>
@@ -661,10 +742,10 @@
             </div>
             <div class="globalsite cmp-globalsite-button oldviz aem-GridColumn aem-GridColumn--default--12">
               <div class="grid-norm no-top-bottom rmg-b30 ">
-  
+
                 <div class="light-bg" align="left">
-                  <a data-en-title="View All Glossary Terms" data-placement="auto" href="{{ $search_url }}" role="button"
-                    class=" btn btBtn btnNormalWidth btn-arrow  "target="_self">
+                  <a data-en-title="View All Glossary Terms" data-placement="auto" href="{{ $search_url }}"
+                    role="button" class=" btn btBtn btnNormalWidth btn-arrow  " target="_self">
                     View All Glossary Terms
                     <span class="text-link-arrow gcom-icon-angle-right">>>></span>
                   </a>
@@ -684,28 +765,29 @@
     </div>
   </div>
   <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-</section> 
+</section>
