@@ -1,3 +1,181 @@
-<section>
-// Coming soon!
-</section>
+{% foreach($scripts as $script): %}
+<script src="{{$script}}" type="text/javascript"></script>
+{% endforeach; %}
+
+<script type="text/javascript">
+    jQuery.fn.exists = function () { return this.length > 0; }
+
+    function genCharArray(charA, charZ) {
+        var alpha = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+
+        for (i = 0; i <= j; i++) {
+            alpha.push(String.fromCharCode(i));
+        }
+        if (alpha) {
+            $("#show_alphabets").show;
+            $("#show_alphabets").html(alpha);
+        } else {
+            $("#show_alphabets").show;
+            $("#show_alphabets").html("Error loading the alphabets");
+        }
+
+    }
+
+    //create a function
+    function getAlphaTerms() {
+        // write code that makes a jquery/n http request
+        // Get the selected alphabet
+        var alphabet = document.getElementById("alphabet").value;
+
+        // Send a request to a PHP script to fetch words
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "search_words.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Display the results
+                document.getElementById("result").innerHTML = xhr.responseText;
+            }
+        };
+
+        // Send the selected alphabet as a POST parameter
+        xhr.send("alphabet=" + alphabet);
+    }
+
+    function getTermDescription() {
+        $('.single').on('click', function (event) {
+            event.preventDefault();
+
+        })
+
+    }
+
+    $(function () {
+        var glossary_action = '';
+        $('btnAlpha').on('click', function () {
+            // getAlpaTerms()
+
+        });
+
+
+        $('#btn_new_term').on('click', function (event) {
+            event.preventDefault();
+
+        //     const _btn = $(this);
+        //     $('#termModalLabel').html(`New Term`);
+        //     $('#inp_term_type').val('addGlossaryTerm');
+        //     $('#inp_term_id').val(0);
+        //     $('#languageList').html('');
+        //     $('#input_term_def').html('');
+        //     $('#input_term_name').val('');
+            
+        //     $('#termModal').modal('show');
+         });
+        $('#glossary-body').on('click', 'dl button', function (event) {
+            event.preventDefault();
+
+            const _btn = $(this);
+            const _event_trigger = event.target;
+            const _btn_action = $(_event_trigger).attr("data-action");
+            console.log(_btn_action)   ;   
+            var title = '' ;
+            
+        switch (_btn_action) {
+            case "new-term":
+                title ='Adding new term';
+                glossary_action = 'addGlossaryTerm';
+                break;
+
+            case "edit-term":
+                title = `Editing: ${_btn.data('term_name')}`;
+                glossary_action = 'updateGlossaryTerm';
+                break;
+
+            case "delete-term":
+                title= `Deleting: ${_btn.data('term_name')}`;
+                glossary_action = 'deleteGlossaryTerm';
+                break;
+            }
+            console.log(glossary_action);
+
+            // alert(`Hi, i am ${_btn.data('term_name')}`);
+            $('#termModalLabel').html(title);
+            $('#inp_term_type').val(glossary_action);
+            $('#inp_term_id').val(_btn.data('term_id'));
+            $('#btn_language_list').html(_btn.data('language_list'));
+            $('#input_term_def').html(_btn.data('term_definition'));
+            $('#input_term_name').val(_btn.data('term_name'));
+
+            $('#termModal').modal('show');
+        });
+        
+        $("#domain-dropdown").on("click", ".dropdown-item", function(event) {
+            event.preventDefault();
+            var selectedItem = $(this).data("value");
+
+            $('#input_faculty').val(selectedItem);
+            console.log("Selected Item: " + selectedItem);
+
+        });
+        $('#termModal').on('shown.bs.modal', function (e) {
+            $('#inp_term_type').val(glossary_action);
+            
+        })
+
+        $("#termForm").submit(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const _modal = $('#termModal'),
+                _form = $('#termForm'),
+                _btn = $('#btn_save'),
+                _btnAction = '';
+
+            if (_form[0].checkValidity() === true) {
+                _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Updating ...').addClass('disabled').attr('disabled', true);
+
+                // Send AJAX request
+
+                $.ajax({
+                    url: $(this).attr('post_url '),
+                    type: 'POST',
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+
+                    success: function (response) {
+                        console.log(response);
+                        _btn.html('Update').removeClass('disabled').attr('disabled', false);
+                    //     if (response['status'] == 'success') {
+                    //         $('#project_table').DataTable().search(response['data']['Name']).draw();
+                    //         _modal.modal('hide');
+                    //         $().msgpopup({
+                    //             text: 'Community Site was created',
+                    //             type: 'success'
+                    //         });
+                    //     } else {
+                    //         // $('#sandbox_table').DataTable().ajax.reload();
+                    //         $().msgpopup({
+                    //             text: response['data'],
+                    //             type: 'error'
+                    //         });
+                    //    }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        _btn.html('Update').removeClass('disabled').attr('disabled', false);
+                        _modal.modal('hide');
+                    }
+                });
+
+            }
+            _form.addClass('was-validated');
+
+        });
+        $('#btn_cancel_termModal').on('click', function (event) {
+            event.preventDefault();
+            $('#termModal').modal('hide');
+        });
+    });
+</script>
