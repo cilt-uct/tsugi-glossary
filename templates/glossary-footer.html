@@ -51,6 +51,21 @@
 
     }
 
+    $(document).ready(function() {
+        const _btn = $(this);
+
+            $('#btn_delete').click(function() {
+              // Hide the faculty section
+              $('#faculty-section').hide();
+              $('#selectedDomain').hide();
+              $('#termDiv').hide();
+              $('#termDiv').hide();
+              $('#def_section').hide();
+      
+              // Change the button text from 'Save' to 'Okay'
+              $('#btn_save').text('Okay');
+          });
+        });
     $(function () {
         var glossary_action = '';
         $('btnAlpha').on('click', function () {
@@ -93,7 +108,7 @@
                 break;
 
             case "delete-term":
-                title= `Deleting: ${_btn.data('term_name')}`;
+                title= `Are you sure you want to delete: ${_btn.data('term_name')} ?`;
                 glossary_action = 'deleteGlossaryTerm';
                 break;
             }
@@ -120,10 +135,31 @@
         });
         $('#termModal').on('shown.bs.modal', function (e) {
             $('#inp_term_type').val(glossary_action);
-            
-        })
 
-        $("#termForm").submit(function (event) {
+        })
+        $("#itemList").on("click", ".delete-btn", function() {
+            var listItem = $(this).closest("li");
+            var itemId = listItem.data("id");
+        // Send an AJAX request to delete the item
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('post_url '),
+            data: { id: itemId },
+            success: function(response) {
+                if (response === "success") {
+                    listItem.remove(); // Remove the item from the list
+                } else {
+                    alert("Failed to delete the item.");
+                }
+            },
+            error: function() {
+                alert("Error occurred while deleting the item.");
+            }
+        });
+    });
+
+        //$("#termForm").submit(function (event) {
+        $("#btn_save").click(function (event) {
             event.preventDefault();
             event.stopPropagation();
 
@@ -134,48 +170,66 @@
 
             if (_form[0].checkValidity() === true) {
                 _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Updating ...').addClass('disabled').attr('disabled', true);
-
+                var formData = new FormData(document.getElementById("termForm"));
+                
                 // Send AJAX request
-
                 $.ajax({
-                    url: $(this).attr('post_url '),
-                    type: 'POST',
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
-
-                    success: function (response) {
-                        console.log(response);
-                        _btn.html('Update').removeClass('disabled').attr('disabled', false);
-                    //     if (response['status'] == 'success') {
-                    //         $('#project_table').DataTable().search(response['data']['Name']).draw();
-                    //         _modal.modal('hide');
-                    //         $().msgpopup({
-                    //             text: 'Community Site was created',
-                    //             type: 'success'
-                    //         });
-                    //     } else {
-                    //         // $('#sandbox_table').DataTable().ajax.reload();
-                    //         $().msgpopup({
-                    //             text: response['data'],
-                    //             type: 'error'
-                    //         });
-                    //    }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                        _btn.html('Update').removeClass('disabled').attr('disabled', false);
-                        _modal.modal('hide');
-                    }
+                type: "POST",
+                url: '{{$post_url}}',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    alert("Data saved successfully!");
+                    console.log(response)
+                },
+                error: function() {
+                    console.log("encounted error",data)
+                    alert("Error saving data. Please try again later.");
+                }
                 });
+
+                //     // success: function (response) {
+                //     //     console.log(response);
+                //     //     _btn.html('Update').removeClass('disabled').attr('disabled', false);
+                //     //     if (response['status'] == 'success') {
+                //     //         $('#project_table').DataTable().search(response['data']['Name']).draw();
+                //     //         _modal.modal('hide');
+                //     //         $().msgpopup({
+                //     //             text: 'Community Site was created',
+                //     //             type: 'success'
+                //     //         });
+                //     //     } else {
+                //     //         // $('#sandbox_table').DataTable().ajax.reload();
+                //     //         $().msgpopup({
+                //     //             text: response['data'],
+                //     //             type: 'error'
+                //     //         });
+                //     //    }
+                //     // },
+                //     // error: function (xhr, status, error) {
+                //     //     console.log(error);
+                //     //     _btn.html('Update').removeClass('disabled').attr('disabled', false);
+                //     //     _modal.modal('hide');
+                //     // }
+                // });
 
             }
             _form.addClass('was-validated');
 
         });
+      
         $('#btn_cancel_termModal').on('click', function (event) {
             event.preventDefault();
             $('#termModal').modal('hide');
+        });
+
+        $('#searchBox').on('keyup', function() {
+       
+            var searchTerm = $(this).val();
+            $.get('search.php', { searchTerm: searchTerm }, function(data) {
+            $('#searchResults').html(data);
+            });
         });
     });
 </script>

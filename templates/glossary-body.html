@@ -7,6 +7,7 @@
     /* width: 33.33%; */
   }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 
 <article id="glossary-body">
   <div class="emt-container-inner">
@@ -54,7 +55,7 @@
                         <button type="button" data-term_id="{{ $term['id'] }}" data-term_name="{{ $term['term'] }}"
                                               data-term_description="{{ $term['description'] }}" class="btn btn-outline-dark btn-sm" data-action="edit-term">Edit</button>
                         <button type="button" data-term_id="{{ $term['id'] }}" data-term_name="{{ $term['term'] }}"
-                                              data-term_description="{{ $term['description'] }}" class="btn btn-outline-dark btn-sm btn-danger" data-action="delete-term">Delete</button></dt>
+                                              data-term_description="{{ $term['description'] }}" class="btn btn-outline-dark btn-sm btn-danger" data-action="delete-term" id="btn_delete">Delete</button></dt>
                       <dd>{{ $term['description'] }}</dd>
                     {% } %}
                   </dl>
@@ -92,9 +93,8 @@
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <form id="termForm" name="termForm">
-        <input type="input" id="inp_term_type" name="inp_term_type" value=""/>
-        <input type="input" id="inp_term_id" name="term_id" value=""/>
-        
+        <!-- <input type="input" id="inp_term_type" name="inp_term_type" value=""/>
+        <input type="input" id="inp_term_id" name="term_id" value=""/> -->       
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="termModalLabel">Title</h5>
@@ -103,7 +103,7 @@
             </button>
           </div>
           <div class="modal-body">
-              <div class="form-group  dropdown">
+              <div class="form-group  dropdown" id="faculty-section">
                 <button type="button" class="btn btn-secondary dropdown-toggle" id="btn_domain_list"type="button" data-toggle="dropdown">
                   Choose Faculty
                 <span class="caret"></span></button>
@@ -113,16 +113,16 @@
                     {% } %}        
                 </ul>               
               </div>
-              <div  class="form-group">
+              <div  class="form-group" id="selectedDomain" >
                 <input  type="hidden" id="selectedDomain" name="selectedDomain" value=""> 
                 <label for="input_faculty">Selected Faculty</label>
-               <input type="text" class="form-control" id="input_faculty" name="input_faculty" disabled/>
+               <input type="text" class="form-control" id="input_faculty" name="input_faculty" required readonly/>
               </div>
-            <div class="form-group">
+            <div class="form-group" id="termDiv">
               <label for="input_term_name">Term</label>
               <input type="text" class="form-control" id="term_name" name="term_name" required/>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="def_section">
               <label for="input_term_def">Definition</label>
               <textarea class="form-control" id="input_term_def" name="term_definition" required></textarea>
             </div>

@@ -6,7 +6,7 @@ require_once "dao/GlossaryDAO.php";
 
 use \Tsugi\Core\LTIX;
 use \Glossary\DAO\GlossaryDAO;
-use \Glossary\templates\glossary_footer;
+//use \Glossary\templates\glossary_footer;
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
@@ -46,7 +46,7 @@ $context = [
    'debug' => $debug,
    'custom_debug' => $LAUNCH->ltiRawParameter('custom_debug', false),
    'tool_debug' => $tool['debug'],
-   'search_url' => addSession('actions/glosearch.php'),
+   'search_url' => addSession('actions/glossary-search.php'),
    'post_url' => addSession('actions/process.php'),
    'domains' => $domains,
    'displayList' => $displayList,

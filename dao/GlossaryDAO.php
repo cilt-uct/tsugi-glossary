@@ -60,8 +60,16 @@ class GlossaryDAO {
 
     function searchWord($word, $description, $term) {
         //global $conn;
-        $query = "SELECT `term`, 'description` , `domain_id`
-                    FROM `{$this->p}glossary_term` ";
+        $searchTerm = $_GET['searchTerm'];
+        
+        $query = "SELECT `term`, 'description` ,
+                    FROM `{$this->p}glossary_term` 
+                    LIKE ?";
+        $stmt = ($query);
+        // Bind the parameter (use % for wildcard matching)
+        $param = "%" . $searchTerm . "%";
+        $stmt->bind_param("s", $param);
+        $stmt->execute();
 
         array(':term' => $word);
         
@@ -76,34 +84,19 @@ class GlossaryDAO {
         }
     
      }
-    function addGlossaryTerm($term_id, $domian_id, $terms, $description) {
-        $notifications = $this->PDOX->rowDie("SELECT notification FROM {$this->p}glossary_term where state = 'admin' and domian_id = :domian_id limit 1;", 
-                                            array(':id' => $term_id));
-
-        if (gettype($notifications) == "boolean") {
-            $notifications = '';
-        } else {
-            $notifications = $notifications['notification'];
-        }
-
-        $result = [];
-        foreach ($terms as $site) {
-
-            if (strlen($site) > 3) {
-                $output = $this->startMigration($term_id, $domian_id, $terms, $description, $notifications, '', '[]', $terms, '', 0) ? 1 : 0;
-                array_push($result, $output);
-            }
-        }
-
+    function addGlossaryTerm($link_id, $user_id, $domain_id, $term, $description) {
+        $result = $this->PDOX->rowDie ("INSERT INTO {$this->p}glossary_term (`domain_id`, `term`, `description`)
+                                            VALUES ( `:domain_id`, `:term`, `:description`)",
+                                            array(':link_id'=>$link_id,':user_id'=>$user_id ,':domain_id' => $domain_id,':term' => $term, ':description' => $description ));
         return $result;
     }
     
-    function updateGlossaryTerm($domain_id, $term_id, $state) {
+    function updateGlossaryTerm( $link_id, $user_id, $term_id, $description, $term) {
         $query = "UPDATE {$this->p}glossary_term
-        SET modified_at = NOW(), modified_by = :userId, `state` = :state, `active` = 0
-        WHERE domain_id = :domainId";
+        SET `modified_at` = NOW(), `modified_by` = :user_id, `term` = :term ,`description` = :description
+        WHERE link_id = :link_id and term_id = :term_id";
 
-        $arr = array(':id' => $term_id,':domain_id' => $domain_id, ':active' => $state);
+        $arr = array(':link_id'=>$link_id,':user_id'=>$user_id ,':term_id' => $term_id,':description' => $description, ':term' => $term);
         return $this->PDOX->queryDie($query, $arr);
     }
     function insertGlossaryTerm($term_id, $domain_id, $state, $term, $description ) {
@@ -115,21 +108,11 @@ class GlossaryDAO {
         return $this->PDOX->queryDie($query, $arr);
     }
 
-    function removeGlossaryTerm($term_id, $user_id, $domain_id) {                        
+    function removeGlossaryTerm($domain_id) {                        
         return $this->PDOX->queryDie("DELETE FROM {$this->p}glossary_term " .
                                 "WHERE `term_id` = :id and `domain_id` = domain_id;", 
-                                array(':id' => $term_id, ':domain_id' => $domain_id));
+                                array(':domain_id' => $domain_id));
     } 
-
-    //  function getWorkflowAndReport($link_id, $site_id) {
-    //     $query = "SELECT workflow, 
-    //                     ifnull(report_url,'') as report_url,`state`,
-    //                     imported_site_id, transfer_site_id
-    //                     FROM {$this->p}migration_site where link_id = :linkId and site_id = :siteId;";
-    //     $rows = $this->PDOX->rowDie($query, array(':siteId' => $site_id, ':linkId' => $link_id));
-
-    //     return ($rows == 0 ? [] : $rows);
-    // } 
 
 }              
     ?>
