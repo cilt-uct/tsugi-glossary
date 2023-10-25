@@ -34,10 +34,10 @@ $DATABASE_INSTALL = array(
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;"
     ),
     array(
-        "{$CFG->dbprefix}glossary_languages",
-        "CREATE TABLE `glossary_languages` (
+        "{$CFG->dbprefix}glossary_language",
+        "CREATE TABLE `glossary_language` (
             `id` int NOT NULL AUTO_INCREMENT,
-            `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+            `language` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;"
     ),

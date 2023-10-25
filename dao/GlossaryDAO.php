@@ -29,17 +29,12 @@ class GlossaryDAO {
         $arr = array();
         $query = "SELECT `def`.`id`, `domain`.`name` as `domain_name`,`def`.`term`,`def`.`description` 
                     FROM `{$this->p}glossary_term` `def` 
-                    LEFT JOIN `{$this->p}glossary_domains` `domain` on `domain`.`id` = `def`.`domain_id`";
+                    LEFT JOIN `{$this->p}glossary_domain` `domain` on `domain`.`id` = `def`.`domain_id`";
 
         if ($domain_id > 0) {
             $query .= "WHERE `domain_id`=:domain_id";
             $arr = array(':domain_id' => $domain_id);
         }
-        // if limit > 0 add to query
-        if ($limit > 0) {
-            $query .= " limit ". $limit;
-        }
-
         // same for offset
         return $this->PDOX->allRowsDie($query, $arr);
      }
@@ -52,38 +47,46 @@ class GlossaryDAO {
      }
      
     function getAllLanguages() {   
-        $query = "SELECT `id`,`name`
-                    FROM `{$this->p}glossary_languages`";
+        $query = "SELECT `id`,`language`
+                    FROM `{$this->p}glossary_language`";
 
         return $this->PDOX->allRowsDie($query);
      }
+     function getTermsForLanguage($selectedLanguage) {
+        $query = "SELECT `term `
+                    FROM `{$this->p}glossary_term_translation_text`
+                    LEFT JOIN `{$this->p}glossary_term_translation_text`,`glossary_term_translation` on `glossary_term_translation`.`id` = `glossary_term_translation_text`.`translation_id`
+                    WHERE `language_id` = ?";
+                    
+        return $this->PDOX->allRowsDie($query);
+    }
 
-    function searchWord($word, $description, $term) {
-        //global $conn;
-        $searchTerm = $_GET['searchTerm'];
-        
-        $query = "SELECT `term`, 'description` ,
-                    FROM `{$this->p}glossary_term` 
-                    LIKE ?";
-        $stmt = ($query);
-        // Bind the parameter (use % for wildcard matching)
-        $param = "%" . $searchTerm . "%";
-        $stmt->bind_param("s", $param);
-        $stmt->execute();
+    function searchWord( $search_term) {
+        global $db;
 
-        array(':term' => $word);
-        
-        if ($word == "") {
-           echo("Please enter a word.");
-           return;
-        }else{
-            $query .= "WHERE 'SUBSTRING(term, 1, 3)'  == SUBSTRING($word,1,3) ";
-            $arr = array(':description_text' => $description, ':concept_text'=> $term);
-            
-            return $this->PDOX->allRowsDie($query, $arr);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $search_term = $_POST["#search_term"];
         }
+        $query = "SELECT `term` FROM `glossary_term_translation_text` WHERE term LIKE '$search_term%'";
+        $result =  $this->PDOX->allRowsDie($query);
     
+        if ($result === false) {
+            return [];
+        }
+        // Fetch and display the results
      }
+     function fetchTermsByAlphabet($alphabet) {
+        global $pdo;
+        
+        $query = $pdo->prepare("SELECT `term` FROM glossary_term
+                                WHERE `term` 
+                                LIKE ? ORDER BY `term`");
+        $query->execute(["$alphabet%"]);
+        
+        $terms = $query->fetchAll(PDO::FETCH_COLUMN);
+        
+        return $terms;
+    }
     function addGlossaryTerm($link_id, $user_id, $domain_id, $term, $description) {
         $result = $this->PDOX->rowDie ("INSERT INTO {$this->p}glossary_term (`domain_id`, `term`, `description`)
                                             VALUES ( `:domain_id`, `:term`, `:description`)",

@@ -23,25 +23,55 @@
 
     //create a function
     function getAlphaTerms() {
-        // write code that makes a jquery/n http request
-        // Get the selected alphabet
-        var alphabet = document.getElementById("alphabet").value;
+        const termList = document.getElementById("term-list");
 
-        // Send a request to a PHP script to fetch words
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "search_words.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        // Make an AJAX request to your PHP script
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "fetch_terms.php?alphabet=" + alphabet, true);
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Display the results
-                document.getElementById("result").innerHTML = xhr.responseText;
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+
+                // Display the fetched terms
+                termList.innerHTML = "<ul>";
+                response.forEach(function(term) {
+                    termList.innerHTML += "<li>" + term + "</li>";
+                });
+                termList.innerHTML += "</ul>";
             }
         };
 
-        // Send the selected alphabet as a POST parameter
-        xhr.send("alphabet=" + alphabet);
+        xhr.send();
     }
+    function fetchAllTerms() {
+    const termList = document.getElementById("term-list");
+        // Make an AJAX request to your PHP script
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "glossary-search.php", true);
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+
+                // Display the fetched terms with alphabet headings
+                termList.innerHTML = "";
+
+                let currentAlphabet = '';
+                response.forEach(function(term) {
+                    const firstLetter = term[0].toUpperCase();
+                    if (firstLetter !== currentAlphabet) {
+                        currentAlphabet = firstLetter;
+                        termList.innerHTML += "<h2>" + currentAlphabet + "</h2>";
+                    }
+                    termList.innerHTML += "<p>" + term + "</p>";
+                });
+            }
+        };
+
+    xhr.send();
+}
+
 
     function getTermDescription() {
         $('.single').on('click', function (event) {
@@ -224,12 +254,57 @@
             $('#termModal').modal('hide');
         });
 
-        $('#searchBox').on('keyup', function() {
-       
-            var searchTerm = $(this).val();
-            $.get('search.php', { searchTerm: searchTerm }, function(data) {
-            $('#searchResults').html(data);
+    //     $(document).ready(function() {
+    // $('#searchButton').on('click', function(event) {
+    //     event.preventDefault();
+    //     event.stopPropagation();
+
+    //     // Get the value entered in the input box
+    //     var searchTerm = $('#searchBox').val();
+    //     searchWord(searchTerm);
+    //     });
+    // });
+    $(document).ready(function() {
+    // Event handler for the search button
+    $("#searchButton").on("click", function() {
+        var searchTerm = $('#searchBox').val().toLowerCase(); 
+        $('#termList').html("");
+
+        // Send an AJAX request to fetch terms from the database
+        $.ajax({
+            url: '{{$post_url}}',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Iterate through the fetched terms and display matching ones
+                response.forEach(function(term) {
+                    if (term.toLowerCase().includes(searchTerm)) {
+                        $('#termList').append("<p>" + term + "</p>");
+                    }
+                });
+            },
+            error: function(error) {
+                console.log("Error fetching terms from the database: " + error);
+            }
             });
         });
+    });
+
+  $("#languageSelect").addEventListener("change", function () {
+            const selectedLanguage = this.value;
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("GET", `/get-terms?language=${selectedLanguage}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const terms = JSON.parse(xhr.responseText);
+
+                    // Update the 'termsContainer' with the terms received from the server
+                    document.getElementById("termsContainer").innerHTML = terms;
+                }
+            };
+            xhr.send();
+        });
+
     });
 </script>

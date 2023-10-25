@@ -24,3 +24,13 @@
       display: block;
       cursor: pointer;
    }
+   .key {
+      display: flex;
+      flex-wrap: wrap;
+  }
+  .letter {
+      width: 33.33%;
+  }
+  .column {
+      list-style: none;
+  }
