@@ -23,7 +23,6 @@ $domain_id = isset($_GET['domain_id']) ? $_GET['domain_id'] : 0;
 $languages = $glossaryDAO ->getAllLanguages();
 $word = "";
 $searchTerm = $glossaryDAO ->searchWord($word);
-
 $domains = $glossaryDAO->getDomain($domain_id);
 // foreach ($domains as $domain) {
 //    $obj = $domain;
@@ -34,7 +33,7 @@ $domains = $glossaryDAO->getDomain($domain_id);
 $displayList = [];
 foreach ($domains as $domain) {
    $obj = $domain;
-   $obj['terms'] = $glossaryDAO->getTermsForDomain($domain['id'], 10);
+   $obj['terms'] = $glossaryDAO->getTermsForDomain($domain['id'], 6);
    array_push($displayList, $obj);
 }
 

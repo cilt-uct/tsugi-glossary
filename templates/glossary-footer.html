@@ -69,8 +69,8 @@
             }
         };
 
-    xhr.send();
-}
+        xhr.send();
+    }
 
 
     function getTermDescription() {
@@ -84,17 +84,17 @@
     $(document).ready(function() {
         const _btn = $(this);
 
-            $('#btn_delete').click(function() {
-              // Hide the faculty section
-              $('#faculty-section').hide();
-              $('#selectedDomain').hide();
-              $('#termDiv').hide();
-              $('#termDiv').hide();
-              $('#def_section').hide();
+        //     $('#btn_delete').click(function() {
+        //       // Hide the faculty section
+        //       $('#faculty-section').hide();
+        //       $('#selectedDomain').hide();
+        //       $('#termDiv').hide();
+        //       $('#termDiv').hide();
+        //       $('#def_section').hide();
       
-              // Change the button text from 'Save' to 'Okay'
-              $('#btn_save').text('Okay');
-          });
+        //       // Change the button text from 'Save' to 'Okay'
+        //       $('#btn_save').text('Okay');
+        //   });
         });
     $(function () {
         var glossary_action = '';
@@ -103,70 +103,58 @@
 
         });
 
-
-        $('#btn_new_term').on('click', function (event) {
-            event.preventDefault();
-
-        //     const _btn = $(this);
-        //     $('#termModalLabel').html(`New Term`);
-        //     $('#inp_term_type').val('addGlossaryTerm');
-        //     $('#inp_term_id').val(0);
-        //     $('#languageList').html('');
-        //     $('#input_term_def').html('');
-        //     $('#input_term_name').val('');
-            
-        //     $('#termModal').modal('show');
-         });
-        $('#glossary-body').on('click', 'dl button', function (event) {
+    $('#glossary-body').on('click', '#action_buttons button, #action_buttons button .fa, #btn_new_term', function (event) {
             event.preventDefault();
 
             const _btn = $(this);
-            const _event_trigger = event.target;
-            const _btn_action = $(_event_trigger).attr("data-action");
-            console.log(_btn_action)   ;   
-            var title = '' ;
+            const _btn_action = $(event.target).attr("data-action");
+            console.log("button action", _btn);
+
             
         switch (_btn_action) {
             case "new-term":
-                title ='Adding new term';
-                glossary_action = 'addGlossaryTerm';
-                break;
+                $("#termDeleteDiv").hide();
+                $("#termDetailsDiv").show();
+                $('#termModalLabel').html('Adding new term');
+                $('#inp_term_type').val('addGlossaryTerm');
+                $('#btn_save').html('Add');
 
+                break;
             case "edit-term":
-                title = `Editing: ${_btn.data('term_name')}`;
-                glossary_action = 'updateGlossaryTerm';
-                break;
+                $("#termDeleteDiv, #faculty-section").hide();
+                $("#termDetailsDiv").show();
 
+                $('#termModalLabel').html(`Editing: ${_btn.data('term_name')}`);
+                $('#inp_term_type').val('updateGlossaryTerm');
+                $('#inp_term_id').val(_btn.data('term_id'));
+                $('#term_faculty').val(_btn.data('term_domain'));
+                $('#term_name').val(_btn.data('term_name'));
+                $('#term_definition').val(_btn.data('term_description'));
+
+                break;
             case "delete-term":
-                title= `Are you sure you want to delete: ${_btn.data('term_name')} ?`;
-                glossary_action = 'deleteGlossaryTerm';
+                $('#termModalLabel').html(`Deleting <i> '${_btn.data('term_name')}' </i>`);
+                $("#termDetailsDiv").hide();
+                $("#termDeleteDiv").show();
+                $('#inp_term_id').val(_btn.data('term_id'));
+                $('#btn_save').html('Delete');
+                $('#term_faculty_id, #term_faculty, #term_name, #term_definition').prop('disabled', true);
+                $("#termDeleteLabel").html(`Are you sure you want to delete <i>' ${_btn.data('term_name')} '</i> ?`);
+                $('#inp_term_type').val('deleteGlossaryTerm');
+
                 break;
             }
-            console.log(glossary_action);
-
-            // alert(`Hi, i am ${_btn.data('term_name')}`);
-            $('#termModalLabel').html(title);
-            $('#inp_term_type').val(glossary_action);
-            $('#inp_term_id').val(_btn.data('term_id'));
-            $('#btn_language_list').html(_btn.data('language_list'));
-            $('#input_term_def').html(_btn.data('term_definition'));
-            $('#input_term_name').val(_btn.data('term_name'));
 
             $('#termModal').modal('show');
         });
         
         $("#domain-dropdown").on("click", ".dropdown-item", function(event) {
             event.preventDefault();
-            var selectedItem = $(this).data("value");
-
-            $('#input_faculty').val(selectedItem);
-            console.log("Selected Item: " + selectedItem);
-
+            $('#term_faculty').val($(this).data("value"));
+            $('#term_faculty_id').val($(this).data("id"));
+            console.log("Selected Item: " + $(this).data("id"));
         });
-        $('#termModal').on('shown.bs.modal', function (e) {
-            $('#inp_term_type').val(glossary_action);
 
-        })
         $("#itemList").on("click", ".delete-btn", function() {
             var listItem = $(this).closest("li");
             var itemId = listItem.data("id");
@@ -188,10 +176,8 @@
         });
     });
 
-        //$("#termForm").submit(function (event) {
-        $("#btn_save").click(function (event) {
+        $("#termForm").submit(function (event) {
             event.preventDefault();
-            event.stopPropagation();
 
             const _modal = $('#termModal'),
                 _form = $('#termForm'),
@@ -199,60 +185,48 @@
                 _btnAction = '';
 
             if (_form[0].checkValidity() === true) {
-                _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Updating ...').addClass('disabled').attr('disabled', true);
-                var formData = new FormData(document.getElementById("termForm"));
-                
-                // Send AJAX request
-                $.ajax({
-                type: "POST",
-                url: '{{$post_url}}',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    alert("Data saved successfully!");
-                    console.log(response)
-                },
-                error: function() {
-                    console.log("encounted error",data)
-                    alert("Error saving data. Please try again later.");
+                if(_btn.html() == 'Delete') {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Deleting ...').addClass('disabled').attr('disabled', true);
+                } else if(_btn.html() == 'Add') {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Adding term ...').addClass('disabled').attr('disabled', true);
+                } else {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Updating ...').addClass('disabled').attr('disabled', true);
                 }
+                 var formData = $(this).serialize();
+                
+                $.ajax({
+                    type: "POST",
+                    url: '{{ $post_url }}',
+                    data: formData,
+                    success: function(response) {
+                        alert("Data saved successfully!");
+                        // _btn.html('Delete').removeClass('disabled').attr('disabled', false);
+                        console.log(response);
+                        $('#termModal').modal('toggle');
+                    },
+                    error: function(error) {
+                        alert("Oops! Something went wrong! Please try again later.");
+                        console.log("encounted error",error);
+                    }
                 });
-
-                //     // success: function (response) {
-                //     //     console.log(response);
-                //     //     _btn.html('Update').removeClass('disabled').attr('disabled', false);
-                //     //     if (response['status'] == 'success') {
-                //     //         $('#project_table').DataTable().search(response['data']['Name']).draw();
-                //     //         _modal.modal('hide');
-                //     //         $().msgpopup({
-                //     //             text: 'Community Site was created',
-                //     //             type: 'success'
-                //     //         });
-                //     //     } else {
-                //     //         // $('#sandbox_table').DataTable().ajax.reload();
-                //     //         $().msgpopup({
-                //     //             text: response['data'],
-                //     //             type: 'error'
-                //     //         });
-                //     //    }
-                //     // },
-                //     // error: function (xhr, status, error) {
-                //     //     console.log(error);
-                //     //     _btn.html('Update').removeClass('disabled').attr('disabled', false);
-                //     //     _modal.modal('hide');
-                //     // }
-                // });
-
             }
             _form.addClass('was-validated');
+        });
 
+        $('#termModal').on('hidden.bs.modal', function (e) {
+            location.reload();
         });
       
         $('#btn_cancel_termModal').on('click', function (event) {
             event.preventDefault();
             $('#termModal').modal('hide');
         });
+
+        $('#searchBox').on('keyup', function() {
+       
+            var searchTerm = $(this).val();
+            $.get('search.php', { searchTerm: searchTerm }, function(data) {
+            $('#searchResults').html(data);
 
     //     $(document).ready(function() {
     // $('#searchButton').on('click', function(event) {
@@ -290,7 +264,7 @@
         });
     });
 
-  $("#languageSelect").addEventListener("change", function () {
+  $("#languageSelect").addEventListener("change", function() {
             const selectedLanguage = this.value;
             const xhr = new XMLHttpRequest();
 
