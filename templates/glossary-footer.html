@@ -21,7 +21,6 @@
 
     }
 
-    //create a function
     function getAlphaTerms() {
         const termList = document.getElementById("term-list");
 
@@ -44,6 +43,7 @@
 
         xhr.send();
     }
+
     function fetchAllTerms() {
     const termList = document.getElementById("term-list");
         // Make an AJAX request to your PHP script
@@ -72,7 +72,6 @@
         xhr.send();
     }
 
-
     function getTermDescription() {
         $('.single').on('click', function (event) {
             event.preventDefault();
@@ -81,21 +80,6 @@
 
     }
 
-    $(document).ready(function() {
-        const _btn = $(this);
-
-        //     $('#btn_delete').click(function() {
-        //       // Hide the faculty section
-        //       $('#faculty-section').hide();
-        //       $('#selectedDomain').hide();
-        //       $('#termDiv').hide();
-        //       $('#termDiv').hide();
-        //       $('#def_section').hide();
-      
-        //       // Change the button text from 'Save' to 'Okay'
-        //       $('#btn_save').text('Okay');
-        //   });
-        });
     $(function () {
         var glossary_action = '';
         $('btnAlpha').on('click', function () {
@@ -103,13 +87,12 @@
 
         });
 
-    $('#glossary-body').on('click', '#action_buttons button, #action_buttons button .fa, #btn_new_term', function (event) {
+        $('#glossary-body').on('click', '#action_buttons button, #action_buttons button .fa, #btn_new_term', function (event) {
             event.preventDefault();
 
             const _btn = $(this);
             const _btn_action = $(event.target).attr("data-action");
             console.log("button action", _btn);
-
             
         switch (_btn_action) {
             case "new-term":
@@ -150,6 +133,7 @@
         
         $("#domain-dropdown").on("click", ".dropdown-item", function(event) {
             event.preventDefault();
+
             $('#term_faculty').val($(this).data("value"));
             $('#term_faculty_id').val($(this).data("id"));
             console.log("Selected Item: " + $(this).data("id"));
@@ -226,59 +210,111 @@
        
             var searchTerm = $(this).val();
             $.get('search.php', { searchTerm: searchTerm }, function(data) {
-            $('#searchResults').html(data);
+                $('#searchResults').html(data);
 
-    //     $(document).ready(function() {
-    // $('#searchButton').on('click', function(event) {
-    //     event.preventDefault();
-    //     event.stopPropagation();
+                //     $(document).ready(function() {
+                // $('#searchButton').on('click', function(event) {
+                //     event.preventDefault();
+                //     event.stopPropagation();
 
-    //     // Get the value entered in the input box
-    //     var searchTerm = $('#searchBox').val();
-    //     searchWord(searchTerm);
-    //     });
-    // });
-    $(document).ready(function() {
-    // Event handler for the search button
-    $("#searchButton").on("click", function() {
-        var searchTerm = $('#searchBox').val().toLowerCase(); 
-        $('#termList').html("");
-
-        // Send an AJAX request to fetch terms from the database
-        $.ajax({
-            url: '{{$post_url}}',
-            method: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                // Iterate through the fetched terms and display matching ones
-                response.forEach(function(term) {
-                    if (term.toLowerCase().includes(searchTerm)) {
-                        $('#termList').append("<p>" + term + "</p>");
-                    }
-                });
-            },
-            error: function(error) {
-                console.log("Error fetching terms from the database: " + error);
-            }
+                //     // Get the value entered in the input box
+                //     var searchTerm = $('#searchBox').val();
+                //     searchWord(searchTerm);
+                //     });
             });
         });
-    });
 
-  $("#languageSelect").addEventListener("change", function() {
-            const selectedLanguage = this.value;
-            const xhr = new XMLHttpRequest();
+        $("#viewAll").on('click', function(e) {
+            e.preventDefault();
 
-            xhr.open("GET", `/get-terms?language=${selectedLanguage}`, true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    const terms = JSON.parse(xhr.responseText);
-
-                    // Update the 'termsContainer' with the terms received from the server
-                    document.getElementById("termsContainer").innerHTML = terms;
-                }
-            };
-            xhr.send();
+            $("#divTopTerms").hide();
+            $("#divSearchForTerms").show();
         });
 
-    });
+        $('#alphaButtons').on('click', '.alphabet-button', function() {
+            var clickedAlphabet = $(this).data('alphabet');
+
+            // {{ $alphabet_terms }}
+
+            console.log('Clicked: ' + clickedAlphabet);
+        });
+
+        $(document).ready(function() {
+            
+            var alphabets = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+            alphabets.forEach(function(alphabet) {
+                var button = $('<button type="button" class="btn btn-primary btn-xs">').text(alphabet)
+                                        .addClass('alphabet-button')
+                                        .attr('data-alphabet', alphabet)
+                                        .attr('id', 'btnAlpha')
+                                        .attr('name', 'btnAlpha');
+                $('#alphaButtons').append(button);
+            });
+
+
+            // Event handler for the search button
+            $("#searchButton").on("click", function() {
+            var searchTerm = $('#searchBox').val().toLowerCase(); 
+            $('#termList').html("");
+
+            // Send an AJAX request to fetch terms from the database
+            $.ajax({
+                url: '{{$post_url}}',
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Iterate through the fetched terms and display matching ones
+                    response.forEach(function(term) {
+                        if (term.toLowerCase().includes(searchTerm)) {
+                            $('#termList').append("<p>" + term + "</p>");
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log("Error fetching terms from the database: " + error);
+                }
+                });
+            });
+
+            $("#searchButton").on("click", function() {
+                var searchTerm = $('#searchBox').val().toLowerCase(); 
+                $('#termList').html("");
+
+                // Send an AJAX request to fetch terms from the database
+                $.ajax({
+                    url: '{{$post_url}}',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        // Iterate through the fetched terms and display matching ones
+                        response.forEach(function(term) {
+                            if (term.toLowerCase().includes(searchTerm)) {
+                                $('#termList').append("<p>" + term + "</p>");
+                            }
+                        });
+                    },
+                    error: function(error) {
+                        console.log("Error fetching terms from the database: " + error);
+                    }
+                });
+            });
+        
+            $("#languageSelect").on("change", function () {
+                const selectedLanguage = this.value;
+                const xhr = new XMLHttpRequest();
+
+                xhr.open("GET", `/get-terms?language=${selectedLanguage}`, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const terms = JSON.parse(xhr.responseText);
+
+                        // Update the 'termsContainer' with the terms received from the server
+                        document.getElementById("termsContainer").innerHTML = terms;
+                    }
+                };
+                xhr.send();
+            });
+            
+        });
+});
 </script>
