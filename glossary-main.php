@@ -21,7 +21,6 @@ $glossaryDAO = new GlossaryDAO($PDOX, $CFG->dbprefix);
 $domain_id = isset($_GET['domain_id']) ? $_GET['domain_id'] : 0;
 $languages = $glossaryDAO ->getAllLanguages();
 $word = "";
-$searchTerm = $glossaryDAO ->searchWord($word);
 $domains = $glossaryDAO->getDomain($domain_id);
 $all_terms = $glossaryDAO->getAllTerms();
 // $alphabet_terms = $glossaryDAO->fetchTermsByAlphabet($alphabet);
