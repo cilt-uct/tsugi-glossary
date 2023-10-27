@@ -6,7 +6,6 @@ require_once "dao/GlossaryDAO.php";
 
 use \Tsugi\Core\LTIX;
 use \Glossary\DAO\GlossaryDAO;
-use \Glossary\templates\glossary_footer;
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
@@ -21,7 +20,11 @@ $glossaryDAO = new GlossaryDAO($PDOX, $CFG->dbprefix);
 
 $domain_id = isset($_GET['domain_id']) ? $_GET['domain_id'] : 0;
 $languages = $glossaryDAO ->getAllLanguages();
+$word = "";
+$searchTerm = $glossaryDAO ->searchWord($word);
 $domains = $glossaryDAO->getDomain($domain_id);
+$all_terms = $glossaryDAO->getAllTerms();
+// $alphabet_terms = $glossaryDAO->fetchTermsByAlphabet($alphabet);
 // foreach ($domains as $domain) {
 //    $obj = $domain;
 //    $obj['courses'] = $glossaryDAO->getDomain($domain_id);;
@@ -31,7 +34,7 @@ $domains = $glossaryDAO->getDomain($domain_id);
 $displayList = [];
 foreach ($domains as $domain) {
    $obj = $domain;
-   $obj['terms'] = $glossaryDAO->getTermsForDomain($domain['id'], 10);
+   $obj['terms'] = $glossaryDAO->getTermsForDomain($domain['id'], 6);
    array_push($displayList, $obj);
 }
 
@@ -46,10 +49,11 @@ $context = [
    'debug' => $debug,
    'custom_debug' => $LAUNCH->ltiRawParameter('custom_debug', false),
    'tool_debug' => $tool['debug'],
-   'search_url' => addSession('actions/glosearch.php'),
    'post_url' => addSession('actions/process.php'),
    'domains' => $domains,
    'displayList' => $displayList,
+   'languages' => $languages,
+   'all_terms' => $all_terms,
    //'selectedDomain' => $selectedDomain
 ];
 

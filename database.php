@@ -24,7 +24,7 @@ $DATABASE_UNINSTALL = array(
 $DATABASE_INSTALL = array(
     array(
         "{$CFG->dbprefix}glossary_site",
-        "CREATE TABLE `{$CFG->dbprefix}glossary_site` (
+        "CREATE TABLE IF NOT EXISTS `{$CFG->dbprefix}glossary_site` (
         `link_id` int NOT NULL,
         `site_id` varchar(99) NOT NULL,
         `settings` text NOT NULL,
@@ -34,16 +34,16 @@ $DATABASE_INSTALL = array(
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;"
     ),
     array(
-        "{$CFG->dbprefix}glossary_languages",
-        "CREATE TABLE `glossary_languages` (
+        "{$CFG->dbprefix}glossary_language",
+        "CREATE TABLE IF NOT EXISTS `glossary_language` (
             `id` int NOT NULL AUTO_INCREMENT,
-            `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+            `language` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;"
     ),
     array(
         "{$CFG->dbprefix}glossary_user",
-        "CREATE TABLE `{$CFG->dbprefix}glossary_user` (
+        "CREATE TABLE IF NOT EXISTS `{$CFG->dbprefix}glossary_user` (
         `link_id` int(11) NOT NULL
         
         -- Add more fields later
@@ -55,6 +55,46 @@ $DATABASE_INSTALL = array(
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
     ),
     // Add other tables later
+    array(
+        "{$CFG->dbprefix}glossary_domain",
+        "CREATE TABLE IF NOT EXISTS `{$CFG->dbprefix}glossary_domain` (
+        `link_id` int(11) NOT NULL
+        
+        -- Add more fields later
+
+        -- Set primary key later
+
+        -- Set constraint later
+
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
+    ),
+    array(
+        "{$CFG->dbprefix}glossary_term",
+        "CREATE TABLE `{$CFG->dbprefix}glossary_term` (
+        `link_id` int(11) NOT NULL
+        
+        -- Add more fields later
+
+        -- Set primary key later
+
+        -- Set constraint later
+
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
+    ),
+    array(
+        "{$CFG->dbprefix}glossary_term_translation",
+        "CREATE TABLE IF NOT EXISTS `{$CFG->dbprefix}glossary_term_translation` (
+        `link_id` int(11) NOT NULL
+        
+        -- Add more fields later
+
+        -- Set primary key later
+
+        -- Set constraint later
+
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3"
+    ),
+    
 );
 
 // Database upgrade
