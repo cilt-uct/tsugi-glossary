@@ -60,113 +60,110 @@ $languages = $glossaryDAO->getAllLanguages();
       display: block;
       cursor: pointer;
    }
+
+   .key {
+      display: flex;
+      flex-wrap: wrap;
+   }
+
+   .letter {
+      width: 33.33%;
+
+   }
+
+   .column {
+      list-style: none;
+   }
+
+   .a {
+      font-weight: bold;
+   }
 </style>
 <!-- <li><span aria-current="page" class="page-numbers current">3</span></li> -->
 
-<section>
-   <div class="globalsite cmp-globalsite-glossarysearch oldviz aem-GridColumn aem-GridColumn--default--12">
-   </div>
-   <div class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
-      <section class="grid-norm  ">
-         <form>
-            <!-- simpletexteyebrow Template -->
-            <div class="simpletexteyebrow display-flex grid-full no-top hero-mb" style="background-color: #F4F4F4;">
-               <div class="hero-content grid-wide no-top-bottom">
-                  <div class="simple-rep grid-wide-inner ">
-                     <div class="child-cell">
-                        <h1 data-en-heading="Glossary" style="color:#002856">Vula Glossary</h1>
-                     </div>
+<article id="glossary-search">
+  <div class="emt-container-inner">
+    <div class="root responsivegrid">
+      <div class="aem-Grid aem-Grid--12 aem-Grid--default--12 ">
+        <div class="responsivegrid aem-GridColumn aem-GridColumn--default--12">
+          <div class="aem-Grid aem-Grid--12 aem-Grid--default--12 ">
+            <div class="globalsite cmp-globalsite-hero js-hero-check oldviz aem-GridColumn aem-GridColumn--default--12">
+              
+               <section>
+                  <!-- // page header -->
+                  <div class='page-header'>
+                     <h1 data-en-heading="Glossary" style="color:#002856">Vula Glossary</h1>
                   </div>
                </div>
             </div>
-            <label for="word">Languages list</label>
-               <select name="languages" placeholder="--Select--">  &nbsp; &nbsp;
-                  <option> --Select--</option>
+            <label for="word">Languages list</label> &nbsp; &nbsp; &nbsp; &nbsp;
+            <select name="languages" id="languageSelect">
+               <?php
+               foreach ($languages as $arr => $value): ?>
                   <option>
-                     <!-- <option>
-                        {% foreach ($languages as $x => $val) { %} 
-                           <option>{{$val['name'] }}</option>
-                        {% } %}  -->
-
-                     <?php
-                     foreach ($languages as $arr => $value): ?>
-                     <option>
-                        <?= $value['name']; ?>
-                     </option>
-                  <?php endforeach; ?>
+                     <?= $value['language']; ?>
                   </option>
-                  </option>
-               </select> <br>
-                  </br>
-            <input type="text" name="search" placeholder="Search Vula Glossary" value="<?php if (isset($_GET['searchWord()']))
-               echo $_GET['searchWord']; ?> ">
-            <button type="submit" class="btn btn-primary" id="search-btn">
+               <?php endforeach; ?>
+            </select> <br>
+            <div id="termsContainer">
+               <!-- Display terms here -->
+            </div>
+            <input type="text" id="searchBox" name="searchBox" placeholder="Search Vula Glossary" value="">
+            <button type="submit" class="btn btn-primary" id="searchButton">
                Search
             </button>
+            <div id="searchResults"> </div>
          </form>
          <div class="row">
             <div class="found-result col-xs-12 p-small" style="display:none"></div>
          </div>
          <div class="row keys hidden-sm hidden-xs">
-            <div class="col-xs-12">
-               <ul class="list-inline" id="show_alphabets">
+            <div>
                <?php
-                echo '<button>0-9</button>';
-                  // Array of alphabets
-                  $alphabets = range('A', 'Z');
-
-                  // Loop through the alphabets and create buttons
-                  foreach ($alphabets as $alphabet) {
-                     echo '<button type="button" onclick="searchWords()">'. $alphabet . '</button>';
-                  }
+               echo '<button>0-9</button>';
+               // Array of alphabets
+               $alphabets = range('A', 'Z');
+               foreach ($alphabets as $alphabet) {
+                  echo '<button type="button" data-term_id="{{searchTerm}}"  >' . $alphabet . '</button>';
+               }
                ?>
-   
-                  <li class="key">
-                     <a class="A">A
-                        <?php
-                        foreach ($domainData as $row) {
-                           $word = $row['term'];
-                           if (substr($word, 0, 1) == "A") {
-                              echo "<li>" . $row['term'] . "</li>";
+            </div>
+            &nbsp; <div class="col-xs-12">
+
+               <ul class="key" data-action="alphabet">
+                  <?php
+                  $termsByLetter = []; 
+                  foreach ($domainData as $row) {
+                     $word = $row['term'];
+                     $firstLetter = strtoupper(substr($word, 0, 1));
+                     $termsByLetter[$firstLetter][] = $row['term'];
+                  }
+                  // Loop through the alphabets from A to Z
+                  for ($letter = 'A'; $letter <= 'Z'; $letter++) {
+                     $letterTerms = $termsByLetter[$letter] ?? [];
+                     if (!empty($letterTerms)) {
+                        echo '<li class="letter">';
+                        echo '<a class="' . $letter . '">' . $letter . '</a>';
+                        echo '<div class="columns">';
+                        $numColumns = 3;
+                        $columnSize = ceil(count($letterTerms) / $numColumns);
+                        $columns = array_chunk($letterTerms, $columnSize);
+                        foreach ($columns as $column) {
+                           echo '<div class="column">';
+                           echo '<ul>'; // Create a nested list for the terms in this column
+                           foreach ($column as $term) {
+                              echo '<li>' . $term . '</li>';
                            }
+                           echo '</ul>';
+                           echo '</div>';
                         }
-                        ?>
-                     </a>
-                  </li>
-
-                  <li class="key">
-                     <a class="B">B
-                        <?php
-                        foreach ($domainData as $row) {
-                           $word = $row['term'];
-                           if (substr($word, 0, 1) == "B") {
-                              echo $row['concepttext'];
-                              $row['definitiontext'];
-                           }
-                        }
-                        ?>
-                     </a>
-                  </li>
-
-
-                  <div id="result"></div>
-                  <script>
-                     // Function to handle search button click event
-                     function searchWord() {
-                        const word = document.getElementById("word").value;
-                        const resultDiv = document.getElementById("result");
-
-                        if (!word) {
-                           alert("Please enter a word.");
-                           return;
-                        }
-
-                        // Replace the following line with your backend code to fetch word meanings
-                        const meaning = "Sample meaning for " + word;
-                        resultDiv.innerText = meaning;
+                        echo '</div>';
+                        echo '</li>';
                      }
-                     // Add event listener to search button
-                     document.getElementById("search-btn").addEventListener("click", searchWord);
-                  </script>
+                  }
+                  ?>
+               </ul>
+
+               <div id="result"></div>
             </div>
       </section>

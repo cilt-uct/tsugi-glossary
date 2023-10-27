@@ -33,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result['msg'] = $_POST;
-
     $domain_id = isset($_POST['term_faculty_id']) ? $_POST['term_faculty_id'] : '';
     $domain = isset($_POST['term_faculty']) ? $_POST['term_faculty'] : '';
     $term_id = isset($_POST['inp_term_id']) ? $_POST['inp_term_id'] : '';

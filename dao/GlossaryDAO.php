@@ -53,11 +53,8 @@ class GlossaryDAO {
     }
        
     function getAllTerms() {
-        $result = $this->PDOX->allRowsDie("SELECT `term`.`id`,`term`.`domain_id`,`term`.`term`,`term`.`description`, `domain`.`name` AS `domain`
-                    FROM `{$this->p}glossary_term` AS `term`
-                    LEFT JOIN glossary_domain AS `domain` ON `term`.`domain_id` = `domain`.`id`
-                    WHERE `deleted` = 0;");
-
+        $result = $this->PDOX->allRowsDie("SELECT `id`,`domain_id`,`term`,`description`
+                    FROM `{$this->p}glossary_term`where `deleted` = 0 LIMIT 30;");
 
         return $result;
     }
@@ -77,35 +74,6 @@ class GlossaryDAO {
 
         return $this->PDOX->allRowsDie($query);
     }
-    
-    function searchWord($search_term) {
-        global $db;
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $search_term = $_POST["#search_term"];
-        }
-
-        // $query = "SELECT `term` FROM `glossary_term_translation_text` WHERE term LIKE '$search_term%'";
-        // $result =  $this->PDOX->allRowsDie($query);
-
-        // if ($result === false) {
-        //     return [];
-        // }
-        // Fetch and display the results
-    }
-
-    function fetchTermsByAlphabet($alphabet) {
-        global $pdo;
-
-        $query = $pdo->prepare("SELECT `term` FROM glossary_term
-                                WHERE `term` 
-                                LIKE ? ORDER BY `term`");
-        $query->execute(["$alphabet%"]);
-
-        $terms = $query->fetchAll(PDO::FETCH_COLUMN);
-
-        return $terms;
-    }
 
     function addGlossaryTerm($link_id, $user_id, $domain_id, $term, $description) {
         $result = $this->PDOX->queryDie ("INSERT INTO {$this->p}glossary_term 
@@ -115,7 +83,7 @@ class GlossaryDAO {
         
         return $result;
     }
-    
+   
     function updateGlossaryTerm($link_id, $user_id, $term_id, $term, $description) {
         return $this->PDOX->queryDie("UPDATE {$this->p}glossary_term
                   SET `modified_at` = NOW(), `modified_by` = :userId, `term` = :termName ,`description` = :termDescription
