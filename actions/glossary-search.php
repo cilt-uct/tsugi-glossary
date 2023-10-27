@@ -81,19 +81,18 @@ $languages = $glossaryDAO->getAllLanguages();
 </style>
 <!-- <li><span aria-current="page" class="page-numbers current">3</span></li> -->
 
-<section>
-   <div class="globalsite cmp-globalsite-glossarysearch oldviz aem-GridColumn aem-GridColumn--default--12">
-   </div>
-   <div class="globalsite cmp-globalsite-glossarysearchrelatedterms oldviz aem-GridColumn aem-GridColumn--default--12">
-      <section class="grid-norm  ">
-         <form>
-            <!-- simpletexteyebrow Template -->
-            <div class="simpletexteyebrow display-flex grid-full no-top hero-mb" style="background-color: #F4F4F4;">
-               <div class="hero-content grid-wide no-top-bottom">
-                  <div class="simple-rep grid-wide-inner ">
-                     <div class="child-cell">
-                        <h1 data-en-heading="Glossary" style="color:#002856">Vula Glossary</h1>
-                     </div>
+<article id="glossary-search">
+  <div class="emt-container-inner">
+    <div class="root responsivegrid">
+      <div class="aem-Grid aem-Grid--12 aem-Grid--default--12 ">
+        <div class="responsivegrid aem-GridColumn aem-GridColumn--default--12">
+          <div class="aem-Grid aem-Grid--12 aem-Grid--default--12 ">
+            <div class="globalsite cmp-globalsite-hero js-hero-check oldviz aem-GridColumn aem-GridColumn--default--12">
+              
+               <section>
+                  <!-- // page header -->
+                  <div class='page-header'>
+                     <h1 data-en-heading="Glossary" style="color:#002856">Vula Glossary</h1>
                   </div>
                </div>
             </div>

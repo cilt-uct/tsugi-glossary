@@ -52,6 +52,29 @@ class GlossaryDAO {
          return $this->PDOX->allRowsDie($query, $arr);
     }
        
+    function getAllTerms() {
+        $result = $this->PDOX->allRowsDie("SELECT `id`,`domain_id`,`term`,`description`
+                    FROM `{$this->p}glossary_term`where `deleted` = 0 LIMIT 30;");
+
+
+        $query = $pdo->prepare("SELECT `term` FROM glossary_term
+                                WHERE `term` 
+                                LIKE ? ORDER BY `term`");
+        $query->execute(["$alphabet%"]);
+
+        $terms = $query->fetchAll(PDO::FETCH_COLUMN);
+
+        return $terms;
+    }
+    function addGlossaryTerm($link_id, $user_id, $domain_id, $term, $description) {
+        $result = $this->PDOX->queryDie ("INSERT INTO {$this->p}glossary_term 
+                               (`domain_id`, `term`, `description`, `active`, `deleted`, `created_at`, `created_by`, `modified_at`, `modified_by`)
+                                VALUES ( :domain_id, :term, :description, :active, :deleted, NOW(), :userId, NOW(), :userId)",
+                                array(':domain_id' => $domain_id, ':term' => $term, ':description' => $description, ':active' => 1, ':deleted' => 0, ':userId' => $user_id, ':userId' => $user_id ));
+        
+        return $result;
+    }
+
     // function getTermsForLanguage($selectedLanguage) {
     //     $query = "SELECT `term `
     //                 FROM `{$this->p}glossary_term_translation_text`
@@ -83,6 +106,7 @@ class GlossaryDAO {
         // }
         // Fetch and display the results
     }
+
     function fetchTermsByAlphabet($alphabet) {
         global $pdo;
 
@@ -95,6 +119,7 @@ class GlossaryDAO {
 
         return $terms;
     }
+
     function addGlossaryTerm($link_id, $user_id, $domain_id, $term, $description) {
         $result = $this->PDOX->queryDie ("INSERT INTO {$this->p}glossary_term 
                                (`domain_id`, `term`, `description`, `active`, `deleted`, `created_at`, `created_by`, `modified_at`, `modified_by`)

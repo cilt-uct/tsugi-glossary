@@ -80,6 +80,14 @@
 
     }
 
+    function chunkArray(array, size) {
+        var result = [];
+        for (var i = 0; i < array.length; i += size) {
+            result.push(array.slice(i, i + size));
+        }
+        return result;
+    }
+
     $(function () {
         var glossary_action = '';
         $('btnAlpha').on('click', function () {
@@ -229,18 +237,46 @@
 
             $("#divTopTerms").hide();
             $("#divSearchForTerms").show();
+
+            var domain_terms = '{{ json_encode($all_terms) }}';
+            var data = JSON.parse(domain_terms);
+            var termsByLetter = {};
+            $.each(data, function(index, row) {
+                var word = row.term;
+                var firstLetter = word.charAt(0).toUpperCase();
+                
+                if (!termsByLetter[firstLetter]) {
+                    termsByLetter[firstLetter] = [];
+                }
+                
+                termsByLetter[firstLetter].push(word);
+            });
+            // var $divAlphaTerms = $('#divAlphaTerms');
+            var currentLetter = null;
+
+            $.each(data, function (index, row) {
+                var term = row.term;
+                var firstLetter = term.charAt(0).toUpperCase();
+
+                if (firstLetter !== currentLetter) {
+                    $('#divAlphaTerms').append('<h2>' + firstLetter + '</h2>');
+                    currentLetter = firstLetter;
+                }
+
+                $('#divAlphaTerms').append('<li>' + term + '</li>');
+            });
+
         });
 
-        $('#alphaButtons').on('click', '.alphabet-button', function() {
-            var clickedAlphabet = $(this).data('alphabet');
+        $('#alphaButtons').on('click', '.alphabet-button', function(e) {
+            e.preventDefault();
 
-            // {{ $alphabet_terms }}
-
+            clickedAlphabet = $(this).data('alphabet');
             console.log('Clicked: ' + clickedAlphabet);
         });
 
         $(document).ready(function() {
-            
+            var clickedAlphabet = '';
             var alphabets = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
             alphabets.forEach(function(alphabet) {
                 var button = $('<button type="button" class="btn btn-primary btn-xs">').text(alphabet)

@@ -54,6 +54,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $result['msg'] = $result['success'] ? 'Updated' : 'Error Updating';
     }
+
+    // if (isset($_POST['alphabet'])) {
+    //     $alphabet = isset($_POST['alphabet']);
+    //     $result = $glossaryDAO->fetchTermsByAlphabet($alphabet);
+        
+    //     $result = [
+    //         'success' => $result ? 1 : 0, 
+    //         'terms' => $result ? json_decode($result) : []
+    //     ];
+    // }
+}
+
+if (isset($_GET['searchTerm'])) {
+    $searchTerm = $_GET['searchTerm'];
+    $matchingWords = getWordsStartingWith($searchTerm, $tableName);
+
+    print_r($matchingWords);
+} else {
+    echo "Please provide a search term using the 'searchTerm' parameter in the URL.";
 }
 if (isset($_GET['searchTerm'])) {
     $searchTerm = $_GET['searchTerm'];
