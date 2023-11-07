@@ -1,0 +1,100 @@
+<style>
+  #divAlphaTerms {
+    -webkit-column-count: 3;
+    /* -moz-column-count: 3; */
+    column-count: 3;
+    float: left;
+    /* width: 33.33%; */
+  }
+
+  #divAlphaTerms ul::before {
+    content: attr(data-ref) " ";
+    font-weight: 900;
+    font-size: 2.07rem;
+    line-height: 3.43rem;
+    display: block;
+    border-bottom: 1px solid #888;
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var termLinks = document.querySelectorAll('.term-link');
+    termLinks.forEach(function (termLink) {
+      termLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        var domain = this.getAttribute('data-domain');
+        var definition = this.getAttribute('data-definition');
+
+        // Display the domain and definition (you can customize this part)
+        alert('Domain: ' + domain + '\nDefinition: ' + definition);
+      });
+    });
+  });
+</script>
+<!-- {%
+require_once 'templates/glossary-footer-all.html';
+%} -->
+
+<div id="glossary-body">
+
+  <div class='page-header'>
+    <h1 data-en-heading="Glossary" style="color:#002856">Vula Glossary</h1>
+  </div>
+
+  <div id="divSearchForTerms">
+    <div>
+      <button type="button" id="btn_back" name="btn_back" class="btn btn-success btn-xs pull-right">Back</button>
+      <!-- languages form -->
+      <!-- <form class="form-horizontal pull-right">
+           <div class="form-group">
+              <label class="control-label col-sm-6" for="language">Choose language: </label>
+              <div class="col-md-8 sm-6">
+                    <select name="languages" id="languageSelect" class="form-control">
+                    {% foreach ($languages as $arr => $value){ %}
+                       <option>
+                          {{ $value['language']; }}
+                       </option>
+                    {% } %}
+                 </select>
+              </div>
+           </div>
+        </form> -->
+
+      <!-- search form -->
+      <form id="frmSearch" class="form-horizontal pull-left">
+        <div id="termsContainer">
+          <!-- Display terms here -->
+        </div>
+        <input type="text" class="" id="searchBox" name="searchBox" placeholder="Search Vula Glossary" value="">
+        <button type="button" class="btn btn-primary btn-xs" id="searchButton">
+          Search
+        </button>
+        <div id="searchResults"> </div>
+      </form>
+    </div>
+    <br /><br />
+    <ul id="alphaButtons" class="alphabet_button">
+      <li id="divAlphaTerms" ></li>
+  </ul>
+    <div id="divAlphaTerms" data>
+      <ul id="termList">
+        {% $current_char = null;
+        foreach ($all_terms as $x => $term) {
+        $first_char = substr($term['term'], 0, 1);
+        $first_char = strtoupper($first_char);
+
+        if ($first_char !== $current_char) { %}
+      </ul>
+      <ul id="char-{{$first_char}}" data-ref="{{$first_char}}">
+        {% $current_char = $first_char; }
+        %}
+        <li>
+          <a href="#" class="term-link" data-domain="{{$term['domain']}}" data-definition="{{$term['description']}}">
+            {{$term['term']}}
+          </a>
+        </li>
+        {% } %}
+    </div>
+  </div>
+</div>

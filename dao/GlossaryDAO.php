@@ -55,8 +55,9 @@ class GlossaryDAO {
     function getAllTerms() {
         $result = $this->PDOX->allRowsDie("SELECT `term`.`id`,`term`.`domain_id`,`term`.`term`,`term`.`description`,`domain`.`name` AS `domain`
                     FROM `{$this->p}glossary_term` AS `term`
-                    LEFT JOIN `glossary_domain` AS `domain` ON `term`.`domain_id` = `term`.`domain_id`
-                    WHERE `deleted` = 0;");
+                    LEFT JOIN `glossary_domain` AS `domain` ON `term`.`domain_id` = `domain`.`id`
+                    WHERE `deleted` = 0 
+                    order by `term`.`term` asc");
 
         return $result;
     }

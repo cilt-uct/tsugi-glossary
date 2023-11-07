@@ -23,12 +23,8 @@ $languages = $glossaryDAO ->getAllLanguages();
 $word = "";
 $domains = $glossaryDAO->getDomain($domain_id);
 $all_terms = $glossaryDAO->getAllTerms();
-// $alphabet_terms = $glossaryDAO->fetchTermsByAlphabet($alphabet);
-// foreach ($domains as $domain) {
-//    $obj = $domain;
-//    $obj['courses'] = $glossaryDAO->getDomain($domain_id);;
-//    array_push($domains, $obj);
-// }
+
+$main_view = "all"; //"default";
 
 $displayList = [];
 foreach ($domains as $domain) {
@@ -70,11 +66,11 @@ if ($debug) {
    // echo '</pre>';
 }
 
-Template::view('templates/glossary-body.html', $context);
+Template::view('templates/glossary-body-'. $main_view .'.html', $context);
 
 $OUTPUT->footerStart();
 
-Template::view('templates/glossary-footer.html', $context);
+Template::view('templates/glossary-footer-'. $main_view .'.html', $context);
 
 $OUTPUT->footerEnd();
 ?>

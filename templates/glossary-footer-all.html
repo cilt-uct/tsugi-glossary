@@ -1,6 +1,4 @@
-{% foreach($scripts as $script): %}
-<script src="{{$script}}" type="text/javascript"></script>
-{% endforeach; %}
+
 
 <script type="text/javascript">
     jQuery.fn.exists = function () { return this.length > 0; }
@@ -9,7 +7,7 @@
         var clickedAlphabet = '';
         var glossary_action = '';
         var alphabets = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
-        $("#divSearchForTerms").hide();
+        //$("#divSearchForTerms").hide();
        
         alphabets.forEach(function(alphabet) {
             var button = $('<button type="button" class="btn btn-primary btn-xs">').text(alphabet)
@@ -153,23 +151,28 @@
             filterTerms(searchText);
         });
 
-        $("#viewAll").on('click', function(e) {
-            e.preventDefault();
-
-            $("#divTopTerms").hide();
-            $("#divSearchForTerms").show();
-
-            populateAllTerms();
-        });
+        // $("#viewAll").on('click', function(e) {
+        //     e.preventDefault();
+            
+        //     window.location.href = 'glossary-body-all.html';
+        //     populateAllTerms();
+        // });
 
         $('#alphaButtons').on('click', '.alphabet-button', function(e) {
             e.preventDefault();
 
             var selectedAlphabet = $(this).data('alphabet');
-            $('#divAlphaTerms').find('h2').hide();
-            $('#divAlphaTerms').find('li').hide();
 
-            filterTermsByAlphabet(selectedAlphabet);
+              // filterTermsByAlphabet(selectedAlphabet);
+                console.log(selectedAlphabet)
+                $('#divAlphaTerms').find('li').hide()
+                
+            //  $('#divAlphaTerms').find('li').hide().filter(function () {
+            // return $(this).text().charAt(0).toUpperCase() === selectedAlphabet;
+            // }).show();
+
+            $('#divAlphaTerms').find('ul::before:contains(' + selectedAlphabet + ')').show();
+             checkEmptyAlphabetList();
             
         });
 
@@ -204,20 +207,28 @@
 
     });
     
-    function genCharArray(charA, charZ) {
-            var alpha = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+    // function genCharArray(charA, charZ) {
+    //         var alpha = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
 
-            for (i = 0; i <= j; i++) {
-                alpha.push(String.fromCharCode(i));
-            }
-            if (alpha) {
-                $("#show_alphabets").show;
-                $("#show_alphabets").html(alpha);
-            } else {
-                $("#show_alphabets").show;
-                $("#show_alphabets").html("Error loading the alphabets");
-            }
-        }
+    //         for (i = 0; i <= j; i++) {
+    //             alpha.push(String.fromCharCode(i));
+    //         }
+    //         if (alpha) {
+    //             $("#show_alphabets").show;
+    //             $("#show_alphabets").html(alpha);
+    //         } else {
+    //             $("#show_alphabets").show;
+    //             $("#show_alphabets").html("Error loading the alphabets");9
+    //         }
+    //     }
+ 
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['selectedAlphaNumeric'])) {
+    $selectedAlphaNumeric = $_POST['selectedAlphaNumeric'];
+    if ($selectedAlphaNumeric) {
+        filterTermsByAlphaNumeric($selectedAlphaNumeric);
+    }
+}
 
     function getTermDescription() {
         $('.single').on('click', function (event) {
@@ -241,60 +252,60 @@
         }).show();
     }
 
-    function populateAllTerms() {
-        var domain_terms = {{ json_encode($all_terms) }};
-        var termsByLetter = {};
-        var alphabetHeaders = {};
-        var currentLetter = null;
-        $('#divAlphaTerms').find('.no-terms-message').hide();
-        resetAlphaTerms();
+    // function populateAllTerms() {
+    //     var domain_terms = {{ json_encode($all_terms) }};
+    //     var termsByLetter = {};
+    //     var alphabetHeaders = {};
+    //     var currentLetter = null;
+    //     $('#divAlphaTerms').find('.no-terms-message').hide();
+    //     resetAlphaTerms();
 
-        $.each(domain_terms, function (index, row) {
-            var term = row.term;
-            var definition = row.description;
-            var domain = row.domain;
-            var firstLetter = term.charAt(0).toUpperCase();
-            $('#divAlphaTerms').find('h2:contains(' + firstLetter + ')').next('.no-terms-message').hide();
-            
-            if (firstLetter !== currentLetter) {
-                $('#divAlphaTerms').append('<h2>' + firstLetter + '</h2>');
-                var $noTermsMessage = $('<p class="no-terms-message">No terms found!</p>').hide();
-                $('#divAlphaTerms').append($noTermsMessage);
-                alphabetHeaders[firstLetter] = $('#divAlphaTerms').find('h2:contains(' + firstLetter + ')');
-                alphabetHeaders[firstLetter].after($noTermsMessage);
-                currentLetter = firstLetter;
-            }
+    //     $.each(domain_terms, function (index, row) {
+    //         var term = row.term;
+    //         var definition = row.description;
+    //         var domain = row.domain;
+    //         var firstLetter = term.charAt(0).toUpperCase();
+    //         $('#divAlphaTerms').find('h2:contains(' + firstLetter + ')').next('.no-terms-message').hide();
+    //         console.log(term);
+    //         if (firstLetter !== currentLetter) {
+    //             $('#divAlphaTerms').append('<h2>' + firstLetter + '</h2>');
+    //             var $noTermsMessage = $('<p class="no-terms-message">No terms found!</p>').hide();
+    //             $('#divAlphaTerms').append($noTermsMessage);
+    //             alphabetHeaders[firstLetter] = $('#divAlphaTerms').find('h2:contains(' + firstLetter + ')');
+    //             alphabetHeaders[firstLetter].after($noTermsMessage);
+    //             currentLetter = firstLetter;
+    //         }
 
-            var $termLi = $('<li><a href="#" class="term-link">' + term + '</a></li>');
-            var $alertDiv = $('<div class="alert alert-info" role="alert"><strong>'+ domain + '</strong><br/>' + definition +'</div>').hide();
+    //         var $termLi = $('<li><a href="#" class="term-link">' + term + '</a></li>');
+    //         var $alertDiv = $('<div class="alert alert-info" role="alert"><strong>'+ domain + '</strong><br/>' + definition +'</div>').hide();
 
-            $termLi.append($alertDiv);
-            $('#divAlphaTerms').append($termLi);
+    //         $termLi.append($alertDiv);
+    //         $('#divAlphaTerms').append($termLi);
 
-            $termLi.find('.term-link').on('click', function (e) {
-                e.preventDefault();
-                $alertDiv.slideToggle();
-            });
-        });
-    }
+    //         $termLi.find('.term-link').on('click', function (e) {
+    //             e.preventDefault();
+    //             $alertDiv.slideToggle();
+    //         });
+    //     });
+    // }
 
     function resetAlphaTerms() {
         $('#divAlphaTerms').empty();
     }
 
-    function filterTermsByAlphabet(selectedAlphabet) {
-        // $('#divAlphaTerms').find('li:contains("' + selectedAlphabet + '")').show();
+    // function filterTermsByAlphabet(selectedAlphabet) {
+    //     // $('#divAlphaTerms').find('li:contains("' + selectedAlphabet + '")').show();
         
-        $('#divAlphaTerms').find('li').hide().filter(function () {
-            return $(this).text().charAt(0).toUpperCase() === selectedAlphabet;
-        }).show();
+    //     $('#divAlphaTerms').find('li').hide().filter(function () {
+    //         return $(this).text().charAt(0).toUpperCase() === selectedAlphabet;
+    //     }).show();
 
-        $('#divAlphaTerms').find('h2:contains(' + selectedAlphabet + ')').show();
-        checkEmptyAlphabetList();
-    }
+    //     $('#divAlphaTerms').find('h2:contains(' + selectedAlphabet + ')').show();
+    //     checkEmptyAlphabetList();
+    // }
 
     function checkEmptyAlphabetList() {
-        var alphabetHeaders = $('#divAlphaTerms').find('h2');
+        var alphabetHeaders = $('#divAlphaTerms').find('ul::before');
         alphabetHeaders.each(function () {
             var headerLetter = $(this).text();
             var alphabetList = $('#divAlphaTerms').find('li:contains(' + headerLetter + ')');
