@@ -24,7 +24,11 @@ class GlossaryDAO {
 
         return $this->PDOX->allRowsDie($query, $arr);
     }
-
+    function getAlphabetTerms($link_id, $alphabet) {    
+         $query = "SELECT `id`, `domain_id`, `term`, `description`  
+                    FROM `{$this->p}glossary_term` 
+                    WHERE  `term` LIKE :alphabetPrefix";     
+                    $arr = array(   ':alphabetPrefix' => $alphabet . '%'    );     return $this->PDOX->allRowsDie($query, $arr); }
     function getTermsForDomain($domain_id = 0, $limit = 0, $offset = 0) {   
         $arr = array();
         $query = "SELECT `def`.`id`, `domain`.`name` as `domain_name`,`def`.`term`,`def`.`description` 

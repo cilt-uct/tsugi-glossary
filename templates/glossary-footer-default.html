@@ -155,9 +155,12 @@
         $("#viewAll").on('click', function(e) {
                     e.preventDefault();
                     
-                    window.location.href = 'templates/glossary-footer-all.html';
                     populateAllTerms();
-                });
+                    window.location.href = '{{ $viewAllTerms }}';
+                    
+                    // populateAllTerms();
+          
+        });
         
         // $("#viewAll").on('click', function(e) {
         //     e.preventDefault();

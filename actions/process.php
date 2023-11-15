@@ -29,6 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 break;
         }
     }
+    // if (isset($_GET['searchTerm'])) {
+//     $searchTerm = $_GET['searchTerm'];
+//     $matchingWords = $GlossaryDAO->getWordsStartingWith($searchTerm, $tableName);
+
+//     print_r($matchingWords);
+// } else {
+//     echo "Please provide a search term using the 'searchTerm' parameter in the URL.";
+// }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -38,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $term_id = isset($_POST['inp_term_id']) ? $_POST['inp_term_id'] : '';
     $term = isset($_POST['term_name']) ? $_POST['term_name'] : '';
     $definition = isset($_POST['term_definition']) ? $_POST['term_definition'] : '';
-    $form_action = $_POST['inp_term_type'];
+    $form_action = isset($_POST['inp_term_type']) ? $_POST['inp_term_type'] : '';
+    $selectedAphabet = isset($_POST['selectedAlphabet']) ? $_POST['selectedAlphabet'] :'';
     
     if ($form_action) {
         switch($form_action) {           
@@ -55,24 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result['msg'] = $result['success'] ? 'Updated' : 'Error Updating';
     }
 
-    // if (isset($_POST['alphabet'])) {
-    //     $alphabet = isset($_POST['alphabet']);
-    //     $result = $glossaryDAO->fetchTermsByAlphabet($alphabet);
-        
-    //     $result = [
-    //         'success' => $result ? 1 : 0, 
-    //         'terms' => $result ? json_decode($result) : []
-    //     ];
-    // }
-}
+    if ($selectedAphabet) {
 
-if (isset($_GET['searchTerm'])) {
-    $searchTerm = $_GET['searchTerm'];
-    $matchingWords = getWordsStartingWith($searchTerm, $tableName);
+        $result['success'] = $glossaryDAO->getAlphabetTerms($LINK->id, $selectedAphabet);
 
-    print_r($matchingWords);
-} else {
-    echo "Please provide a search term using the 'searchTerm' parameter in the URL.";
+        $result['msg'] = $result['success'] ? 'Updated' : 'Error Updating';
+    }
 }
 
 

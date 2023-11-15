@@ -24,7 +24,7 @@ $word = "";
 $domains = $glossaryDAO->getDomain($domain_id);
 $all_terms = $glossaryDAO->getAllTerms();
 
-$main_view = "all"; //"default";
+$main_view = "default";
 
 $displayList = [];
 foreach ($domains as $domain) {
@@ -45,6 +45,7 @@ $context = [
    'custom_debug' => $LAUNCH->ltiRawParameter('custom_debug', false),
    'tool_debug' => $tool['debug'],
    'post_url' => addSession('actions/process.php'),
+   'viewAllTerms'=> addSession('templates/glossary-body-all.html'),
    'domains' => $domains,
    'displayList' => $displayList,
    'languages' => $languages,
