@@ -92,64 +92,38 @@
         $('#searchButton').click(function () {
             var searchText = $('#searchBox').val().toLowerCase();
             $('#divAlphaTerms').find('li').hide();
+        //    $('#divAlphaTerms > ul').hide(); 
             $('#divAlphaTerms').find('li').filter(function () {
                 return $(this).text().toLowerCase().includes(searchText);
             }).show();
-            //filterTerms(searchText);
         });
 
         $('#searchBox').on('keyup', function () {
             var searchText = $('#searchBox').val().toLowerCase();
-            $('#divAlphaTerms').find('li').hide();
-            $('#divAlphaTerms').find('li').filter(function () {
+            //$('#divAlphaTerms').find('li').hide();
+            $('#divAlphaTerms').find('ul').filter(function () {
+                $('#divAlphaTerms > ul').hide(); 
                 return $(this).text().toLowerCase().includes(searchText);
             }).show();
-            filterTerms(searchText);
         });
 
         $('#alphaButtons').on('click', '.alphabet-button', function (e) {
             e.preventDefault();
+            var value = this.dataset.value;
 
-            var selectedAlphabet = $(this).data('alphabet').toUpperCase();
-            // $('#divAlphaTerms').empty();
-            // var h2 = $("<h2></h2>").text(selectedAlphabet);
-            // $('#divAlphaTerms').append(h2);
-            // console.log(selectedAlphabet);
-            $('#divAlphaTerms > ul').hide();
-            $(`#divAlphaTerms > ul[data-ref='${selectedAlphabet}']`).show();
-/*
-            $.ajax({
-                type: 'POST',
-                url: '{{ $post_url }}',
-                data: { 'selectedAlphabet': selectedAlphabet },
-                success: function (response) {
-                    try {
-                        var parsedResponse = JSON.parse(response);
-                        var parsed_response = parsedResponse.success;
-
-                        for (var i = 0; i < parsed_response.length; i++) {
-                            var definition = parsed_response[i].description;
-                            var domain = parsed_response[i].domain;
-                            var _term = parsed_response[i].term;
-                            if (_term && typeof _term === 'string' && _term.charAt(0).toUpperCase() === selectedAlphabet) {
-                                var listItem = $("<li></li>").text(_term);
-                                $('#divAlphaTerms').append(listItem);
-                            }
-                            else {
-                                console.error('Server response indicates failure.');
-                            }
-                        };
-                    }
-                    catch (e) {
-                        console.error('Error parsing server response:', e);
-                    }
-                },
-                error: function (error) {
-                    console.error('AJAX request failed: ', error);
-                }
-            });
-        */
+            if (!isNaN(parseInt(value))) {
+                console.log('Number is clicked', value);
+                $('#divAlphaTerms > ul').hide().filter(function () {
+                     return /^\d/.test($(this).text().trim());
+                        
+                }).show(); 
+            } else {
+                selectedAlphabet = $(this).data('alphabet').toUpperCase();
+                $('#divAlphaTerms > ul').hide(); 
+                $(`#divAlphaTerms > ul[data-ref='${selectedAlphabet}']`).show(); 
+            }
         });
+
         $("#btn_back").on('click', function (e) {
             e.preventDefault();
 
@@ -157,11 +131,6 @@
             $("#divTopTerms").show();
             $('#divAlphaTerms h2').text('');
         });
-
-        // $('#divAlphaTerms').find('.term-link').on('click', function (e) {
-        //     e.preventDefault();
-        //     $alertDiv.slideToggle();
-        // });
 
         $("#languageSelect").on("change", function () {
             const selectedLanguage = this.value;
@@ -200,17 +169,17 @@
         $('#divAlphaTerms').empty();
     }
 
-    // function checkEmptyAlphabetList() {
-    //     var alphabetHeaders = $('#divAlphaTerms').find('ul');
-    //     alphabetHeaders.each(function () {
-    //         var headerLetter = $(this).text();
-    //         var alphabetList = $('#divAlphaTerms').find('li:contains(' + headerLetter + ')');
-    //         var noTermsMessage = $(this).next('.no-terms-message');
-    //         if (alphabetList.length === 0) {
-    //             noTermsMessage.show();
-    //         } else {
-    //             noTermsMessage.hide();
-    //         }
-    //     });
-    // }
+    function checkEmptyAlphabetList() {
+        var alphabetHeaders = $('#divAlphaTerms').find('ul');
+        alphabetHeaders.each(function () {
+            var headerLetter = $(this).text();
+            var alphabetList = $('#divAlphaTerms').find('li:contains(' + headerLetter + ')');
+            var noTermsMessage = $(this).next('.no-terms-message');
+            if (alphabetList.length === 0) {
+                noTermsMessage.show();
+            } else {
+                noTermsMessage.hide();
+            }
+        });
+    }
 </script>
