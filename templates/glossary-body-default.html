@@ -7,159 +7,139 @@
     /* width: 33.33%; */
   }
 </style>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <div id="glossary-body">
+  <div class='page-header'>
+    <h1 data-en-heading="Glossary" style="color:#002856">Vula Glossary</h1>
+  </div>
 
-    <div class='page-header'>
-      <h1 data-en-heading="Glossary" style="color:#002856">Vula Glossary</h1>
+  <div id="divTopTerms">
+    <div class="top-buttons">
+      <button type="button" id="viewAll" name="viewAll" class="btn btn-primary btn-xs pull-right">
+        View All Terms</button>
+      <button type="button" id="btn_new_term" name="btn_new_term" class="btn btn-success btn-xs pull-right"
+        data-action="new-term">
+        <i class="fa fa-plus" aria-hidden="true"></i> New term
+      </button>
     </div>
-
-    <div id="divTopTerms">
-        <div class="top-buttons">
-          <button type="button" id="viewAll" name="viewAll" class="btn btn-primary btn-xs pull-right" >
-            View All Terms</button>
-          <button type="button" id="btn_new_term" name="btn_new_term" class="btn btn-success btn-xs pull-right" data-action="new-term">
-            <i class="fa fa-plus" aria-hidden="true"></i>  New term
-          </button>   
-        </div>
-        <br/>
-
-        {% foreach ($displayList as $x => $domain) { %}
-          <section>
-            <div class="row">
-              <h4>Top {{ $domain['name'] }} Terms</h4>
-                {% foreach ($domain['terms'] as $x => $term) { %}
-                <div class="col-sm-4 col-md-4">
-                  <div class="alert custom-alert" role="alert">
-                      <div class="row d-flex justify-content-between align-items-center">
-                        <div class="col-sm-8">
-                          <strong>{{ $term['term'] }}</strong>
-                        </div>
-                        <div class="col-sm-4" id="action_buttons">
-                          <button type="button" data-term_id="{{ $term['id'] }}" data-term_name="{{ $term['term'] }}" data-term_domain="{{ $term['domain_name'] }}"
-                            data-term_description="{{ $term['description'] }}" class="btn btn-xs btn-outline-secondary pull-right" data-action="delete-term" id="btn_delete">
-                            <i class="fa fa-trash fa-xs text-danger" aria-hidden="true" data-term_id="{{ $term['id'] }}" data-term_name="{{ $term['term'] }}" data-term_domain="{{ $term['domain_name'] }}"
-                            data-term_description="{{ $term['description'] }}" data-action="delete-term" id="btn_delete"></i>
-                          </button>
-                        
-                          <button type="button" data-term_id="{{ $term['id'] }}" data-term_name="{{ $term['term'] }}" data-term_domain="{{ $term['domain_name'] }}"
-                            data-term_description="{{ $term['description'] }}" class="btn btn-xs btn-outline-secondary pull-right" data-action="edit-term">
-                            <i class="fa fa-pencil fa-xs text-info" aria-hidden="true" data-term_id="{{ $term['id'] }}" data-term_name="{{ $term['term'] }}" data-term_domain="{{ $term['domain_name'] }}"
-                            data-term_description="{{ $term['description'] }}" data-action="edit-term"></i>
-                          </button>
-
-                        </div>
-                      </div>
-                    <dd>{{ $term['description'] }}</dd>
-                  </div>
-                </div>
-                {% if (($x + 1) % 3 == 0) { %}
-                </div>
-                <div class="row">
-                {% } %}
-                {% } %}
-                <button type="button" id="viewAll" name="viewAll" class="btn btn-primary btn-xs pull-right" align="left" >All {{ $domain['name'] }} Terms</button>
-            </div>
-          </section>
-        {% } %}
-
-        <!-- Modal -->
-        <div class="modal fade" id="termModal" tabindex="-1" role="dialog" aria-labelledby="termModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <form id="termForm" name="termForm">
-              <input type="hidden" id="inp_term_type" name="inp_term_type" value=""/>
-              <input type="hidden" id="inp_term_id" name="inp_term_id" value=""/>       
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="termModalLabel">Title</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div id="termDetailsDiv">
-                    <div class="form-group  dropdown" id="faculty-section">
-                      <button type="button" class="btn btn-secondary dropdown-toggle" id="btn_domain_list"type="button" data-toggle="dropdown">
-                        Choose Faculty
-                      <span class="caret"></span></button>
-                      <ul name="domain-dropdown" class="dropdown-menu" id="domain-dropdown" aria-labelledby="dropdownMenuButton1">
-                      {% foreach ($domains as $domain) { %}
-                      <li name="dropdown-list" class="dropdown-item" type="button" data-value="{{ $domain['name'] }}" data-id="{{ $domain['id'] }}">{{ $domain['name'] }}</li>
-                          {% } %}        
-                      </ul>               
-                    </div>
-                    <div  class="form-group" id="termDomainDiv">
-                      <input  type="hidden" id="term_faculty_id" name="term_faculty_id" value=""> 
-                      <label for="term_faculty">Selected Faculty</label>
-                    <input type="text" class="form-control" id="term_faculty" name="term_faculty" required readonly/>
-                    </div>
-                    <div class="form-group" id="termNameDiv">
-                      <label for="term_name">Term</label>
-                      <input type="text" class="form-control" id="term_name" name="term_name" required/>
-                    </div>
-                    <div class="form-group" id="termDefinitionDiv">
-                      <label for="term_definition">Definition</label>
-                      <textarea class="form-control" id="term_definition" name="term_definition" required></textarea>
-                    </div>
-                  </div>
-                  <div id="termDeleteDiv">
-                    <p id="termDeleteLabel" class="text-center"></p>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" id="btn_save" name="btn_save" class="btn btn-primary">Save</button>
-                  <button type="button" id="btn_cancel_termModal" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
+    <br />
+    {% foreach ($displayList as $x => $domain) { %}
+    {% if (count($domain['terms']) > 0) { %}
+    <section>
+      <div class="row">
+        <h4>Top {{ $domain['name'] }} Terms</h4>
+        {% foreach ($domain['terms'] as $x => $term) { %}
+        <!-- Existing term display code here -->
+        <div class="col-sm-4 col-md-4">
+          <div class="alert custom-alert" role="alert">
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="col-sm-8">
+                <strong>{{ $term['term'] }}</strong>
               </div>
-            </form>
+              <div class="col-sm-4" id="action_buttons">
+                <button type="button" data-term_id="{{ $term['id'] }}" data-term_name="{{ $term['term'] }}"
+                  data-term_domain="{{ $term['domain_name'] }}" data-term_description="{{ $term['description'] }}"
+                  class="btn btn-xs btn-outline-secondary pull-right" data-action="delete-term" id="btn_delete">
+                  <i class="fa fa-trash fa-xs text-danger" aria-hidden="true" data-term_id="{{ $term['id'] }}"
+                    data-term_name="{{ $term['term'] }}" data-term_domain="{{ $term['domain_name'] }}"
+                    data-term_description="{{ $term['description'] }}" data-action="delete-term" id="btn_delete"></i>
+                </button>
+                <button type="button" data-term_id="{{ $term['id'] }}" data-term_name="{{ $term['term'] }}"
+                  data-term_domain="{{ $term['domain_name'] }}" data-term_description="{{ $term['description'] }}"
+                  class="btn btn-xs btn-outline-secondary pull-right" data-action="edit-term">
+                  <i class="fa fa-pencil fa-xs text-info" aria-hidden="true" data-term_id="{{ $term['id'] }}"
+                    data-term_name="{{ $term['term'] }}" data-term_domain="{{ $term['domain_name'] }}"
+                    data-term_description="{{ $term['description'] }}" data-action="edit-term"></i>
+                </button>
+              </div>
+            </div>
+            <dd>{{ $term['description'] }}</dd>
           </div>
         </div>
-    </div>
+        {% if (($x + 1) % 3 == 0) { %}
+      </div>
+      <div class="row">
+        {% } %}
+        {% } %}
+        <button type="button" id="viewAll" name="viewAll" class="btn btn-primary btn-xs pull-right" align="left">
+          All {{ $domain['name'] }} Terms</button>
+      </div>
+    </section>
+    {% } %}
+    {% } %}
 
-    <div id="divSearchForTerms">
-      <div>
-        <button type="button" id="btn_back" name="btn_back" class="btn btn-success btn-xs pull-right">Back</button>
-        <!-- languages form -->
-        <!-- <form class="form-horizontal pull-right">
-           <div class="form-group">
-              <label class="control-label col-sm-6" for="language">Choose language: </label>
-              <div class="col-md-8 sm-6">
-                    <select name="languages" id="languageSelect" class="form-control">
-                    {% foreach ($languages as $arr => $value){ %}
-                       <option>
-                          {{ $value['language']; }}
-                       </option>
+    <!-- Modal -->
+    <div class="modal fade" id="termModal" tabindex="-1" role="dialog" aria-labelledby="termModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <form id="termForm" name="termForm">
+          <input type="hidden" id="inp_term_type" name="inp_term_type" value="" />
+          <input type="hidden" id="inp_term_id" name="inp_term_id" value="" />
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="termModalLabel">Title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="termDetailsDiv">
+                <div class="form-group  dropdown" id="faculty-section">
+                  <button type="button" class="btn btn-secondary dropdown-toggle" id="btn_domain_list" type="button"
+                    data-toggle="dropdown">
+                    Choose Faculty
+                    <span class="caret"></span></button>
+                  <ul name="domain-dropdown" class="dropdown-menu" id="domain-dropdown"
+                    aria-labelledby="dropdownMenuButton1">
+                    {% foreach ($domains as $domain) { %}
+                    <li name="dropdown-list" class="dropdown-item" type="button" data-value="{{ $domain['name'] }}"
+                      data-id="{{ $domain['id'] }}">{{ $domain['name'] }}</li>
                     {% } %}
-                 </select>
+                  </ul>
+                </div>
+                <div class="form-group" id="termDomainDiv">
+                  <input type="hidden" id="term_faculty_id" name="term_faculty_id" value="">
+                  <label for="term_faculty">Selected Faculty</label>
+                  <input type="text" class="form-control" id="term_faculty" name="term_faculty" required readonly />
+                </div>
+                <div class="form-group" id="termNameDiv">
+                  <label for="term_name">Term</label>
+                  <input type="text" class="form-control" id="term_name" name="term_name" required />
+                </div>
+                <div class="form-group" id="termDefinitionDiv">
+                  <label for="term_definition">Definition</label>
+                  <textarea class="form-control" id="term_definition" name="term_definition" required></textarea>
+                </div>
               </div>
-           </div>
-        </form> -->
-
-        <!-- search form -->
-        <form id="frmSearch" class="form-horizontal pull-left">
-           <div id="termsContainer">
-              <!-- Display terms here -->
-           </div>
-           <input type="text" class="" id="searchBox" name="searchBox" placeholder="Search Vula Glossary" value="">
-           <button type="button" class="btn btn-primary btn-xs" id="searchButton">
-              Search
-           </button>
-           <div id="searchResults"> </div>
+              <div id="termDeleteDiv">
+                <p id="termDeleteLabel" class="text-center"></p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" id="btn_save" name="btn_save" class="btn btn-primary">Save</button>
+              <button type="button" id="btn_cancel_termModal" class="btn btn-secondary"
+                data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
         </form>
       </div>
-
-      <br/><br/>
-
-      <!-- <div id="alphaButtons" class="text-center">
-        <button type="button" class="btn btn-primary btn-xs alphabet-button" data-alphabet="0-9">0-9</button>
-      </div>
-
-      <div id="divAlphaTerms">
-        <ul id="termList"></ul>
-      </div> -->
-
     </div>
+  </div>
+  <div id="divSearchForTerms">
+    <div>
+      <button type="button" id="btn_back" name="btn_back" class="btn btn-success btn-xs pull-right">Back</button>
+      <form id="frmSearch" class="form-horizontal pull-left">
+        <div id="termsContainer">
+          <!-- Display terms here -->
+        </div>
+        <input type="text" class="" id="searchBox" name="searchBox" placeholder="Search Vula Glossary" value="">
+        <button type="button" class="btn btn-primary btn-xs" id="searchButton">
+          Search
+        </button>
+        <div id="searchResults"> </div>
+      </form>
+    </div>
+    <br /><br />
+  </div>
 </div>
-

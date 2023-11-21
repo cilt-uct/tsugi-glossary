@@ -24,7 +24,7 @@ $word = "";
 $domains = $glossaryDAO->getDomain($domain_id);
 $all_terms = $glossaryDAO->getAllTerms();
 
-$main_view = "all";
+$main_view = "default";
 
 $displayList = [];
 foreach ($domains as $domain) {
