@@ -33,52 +33,6 @@ $languages = $glossaryDAO->getAllLanguages();
 
 ?>
 
-<style>
-   .row {
-      margin-left: -15px;
-      margin-right: -15px;
-   }
-
-   .key .keys {
-      background-color: #e6e6e6;
-      padding-left: 10px;
-      padding-right: 10px;
-      padding-top: 8px;
-      padding-bottom: 8px;
-      cursor: pointer;
-      height: 35px;
-      width: 35px;
-   }
-
-   .keys .key>a,
-   .globalsite.cmp-globalsite-glossarysearch .keys .numkey>a {
-      font-size: 17px;
-      font-weight: 500;
-      line-height: 20px;
-      text-align: center;
-      color: #0052d6;
-      display: block;
-      cursor: pointer;
-   }
-
-   .key {
-      display: flex;
-      flex-wrap: wrap;
-   }
-
-   .letter {
-      width: 33.33%;
-
-   }
-
-   .column {
-      list-style: none;
-   }
-
-   .a {
-      font-weight: bold;
-   }
-</style>
 <!-- <li><span aria-current="page" class="page-numbers current">3</span></li> -->
 
 <article id="glossary-search">
@@ -87,8 +41,7 @@ $languages = $glossaryDAO->getAllLanguages();
       <div class="aem-Grid aem-Grid--12 aem-Grid--default--12 ">
         <div class="responsivegrid aem-GridColumn aem-GridColumn--default--12">
           <div class="aem-Grid aem-Grid--12 aem-Grid--default--12 ">
-            <div class="globalsite cmp-globalsite-hero js-hero-check oldviz aem-GridColumn aem-GridColumn--default--12">
-              
+            <div class="globalsite cmp-globalsite-hero js-hero-check oldviz aem-GridColumn aem-GridColumn--default--12">  
                <section>
                   <!-- // page header -->
                   <div class='page-header'>
@@ -128,7 +81,7 @@ $languages = $glossaryDAO->getAllLanguages();
                }
                ?>
             </div>
-            &nbsp; <div class="col-xs-12">
+            <div class="col-xs-12">
 
                <ul class="key" data-action="alphabet">
                   <?php

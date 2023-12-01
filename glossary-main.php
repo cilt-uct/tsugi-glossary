@@ -14,7 +14,7 @@ error_reporting(E_ALL);
 // Retrieve the launch data if present
 $LAUNCH = LTIX::requireData();
 
-$debug = 1;
+$debug = 0;
 $menu = false; // We are not using a menu
 $glossaryDAO = new GlossaryDAO($PDOX, $CFG->dbprefix);
 
@@ -32,11 +32,6 @@ foreach ($domains as $domain) {
    $obj['terms'] = $glossaryDAO->getTermsForDomain($domain['id'], 6);
    array_push($displayList, $obj);
 }
-
-// foreach ($domain as $dn) {
-//    echo ($dn);
-// }
-
 $context = [
    'instructor' => $USER->instructor,
    'styles' => [addSession('static/css/app.min.css'), addSession('static/css/custom.css')],
@@ -50,10 +45,8 @@ $context = [
    'displayList' => $displayList,
    'languages' => $languages,
    'all_terms' => $all_terms,
-   //'selectedDomain' => $selectedDomain
 ];
 
-// Start of the output
 $OUTPUT->header();
 
 Template::view('templates/header.html', $context);
@@ -62,9 +55,8 @@ $OUTPUT->bodyStart();
 $OUTPUT->topNav($menu);
 
 if ($debug) {
-   // echo '<pre>';
-   // // print_r($displayList);
-   // echo '</pre>';
+   echo '<pre>';
+   echo '</pre>';
 }
 
 Template::view('templates/glossary-body-'. $main_view .'.html', $context);

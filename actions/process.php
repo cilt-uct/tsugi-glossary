@@ -3,42 +3,28 @@ require_once "../../config.php";
 include "../tool-config_dist.php";
 require_once("../dao/GlossaryDAO.php");
 
-
 use \Tsugi\Core\LTIX;
 use \Glossary\DAO\GlossaryDAO;
 
-// Retrieve the launch data if present
 $LAUNCH = LTIX::requireData();
-
-$site_id = $LAUNCH->ltiRawParameter('context_id','none');
-
+$site_id = $LAUNCH->ltiRawParameter('context_id', 'none');
 $glossaryDAO = new GlossaryDAO($PDOX, $CFG->dbprefix);
-
 $result = ['success' => 0, 'msg' => 'requires POST'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['type'])) {
-        switch($_GET['type']) {
+        switch ($_GET['type']) {
             case 'workflow':
                 $result = $GlossaryDAO->getTerms();
-
                 $result = [
-                        'success' => $result ? 1 : 0, 
-                        'terms' => $result ? json_decode($result) : [
-                    ]];
+                    'success' => $result ? 1 : 0,
+                    'terms' => $result ? json_decode($result) : [
+                    ]
+                ];
                 break;
         }
     }
-    // if (isset($_GET['searchTerm'])) {
-//     $searchTerm = $_GET['searchTerm'];
-//     $matchingWords = $GlossaryDAO->getWordsStartingWith($searchTerm, $tableName);
-
-//     print_r($matchingWords);
-// } else {
-//     echo "Please provide a search term using the 'searchTerm' parameter in the URL.";
-// }
 }
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result['msg'] = $_POST;
     $domain_id = isset($_POST['term_faculty_id']) ? $_POST['term_faculty_id'] : '';
@@ -47,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $term = isset($_POST['term_name']) ? $_POST['term_name'] : '';
     $definition = isset($_POST['term_definition']) ? $_POST['term_definition'] : '';
     $form_action = isset($_POST['inp_term_type']) ? $_POST['inp_term_type'] : '';
-    $selectedAphabet = isset($_POST['selectedAlphabet']) ? $_POST['selectedAlphabet'] :'';
-    
+    $selectedAphabet = isset($_POST['selectedAlphabet']) ? $_POST['selectedAlphabet'] : '';
+
     if ($form_action) {
-        switch($form_action) {           
+        switch ($form_action) {
             case 'addGlossaryTerm':
                 $result['success'] = $glossaryDAO->addGlossaryTerm($LINK->id, $USER->id, $domain_id, $term, $definition) ? 1 : 0;
                 break;
@@ -63,15 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $result['msg'] = $result['success'] ? 'Updated' : 'Error Updating';
     }
-
     if ($selectedAphabet) {
-
         $result['success'] = $glossaryDAO->getAlphabetTerms($LINK->id, $selectedAphabet);
-
         $result['msg'] = $result['success'] ? 'Updated' : 'Error Updating';
     }
 }
-
-
 echo json_encode($result);
 exit;

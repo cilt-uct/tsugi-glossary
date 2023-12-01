@@ -112,7 +112,6 @@
             var value = this.dataset.value;
 
             if (!isNaN(parseInt(value))) {
-                console.log('Number is clicked', value);
                 $('#divAlphaTerms > ul').hide().filter(function () {
                      return /^\d/.test($(this).text().trim());
                         
