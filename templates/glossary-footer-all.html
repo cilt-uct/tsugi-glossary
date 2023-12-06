@@ -1,0 +1,184 @@
+<script type="text/javascript">
+    jQuery.fn.exists = function () { return this.length > 0; }
+
+    $(document).ready(function () {
+        var clickedAlphabet = '';
+        var glossary_action = '';
+        var alphabets = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+
+        alphabets.forEach(function (alphabet) {
+            var button = $('<button type="button" class="btn btn-primary btn-xs">').text(alphabet)
+                .addClass('alphabet-button')
+                .attr('data-alphabet', alphabet)
+                .attr('id', 'btnAlpha')
+                .attr('name', 'btnAlpha');
+            $('#alphaButtons').append(button);
+        });
+
+        $("#domain-dropdown").on("click", ".dropdown-item", function (event) {
+            event.preventDefault();
+
+            $('#term_faculty').val($(this).data("value"));
+            $('#term_faculty_id').val($(this).data("id"));
+            console.log("Selected Item: " + $(this).data("id"));
+        });
+
+        $("#itemList").on("click", ".delete-btn", function () {
+            var listItem = $(this).closest("li");
+            var itemId = listItem.data("id");
+            // Send an AJAX request to delete the item
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('post_url '),
+                data: { id: itemId },
+                success: function (response) {
+                    if (response === "success") {
+                        listItem.remove(); // Remove the item from the list
+                    } else {
+                        alert("Failed to delete the item.");
+                    }
+                },
+                error: function () {
+                    alert("Error occurred while deleting the item.");
+                }
+            });
+        });
+
+        $("#termForm").submit(function (event) {
+            event.preventDefault();
+
+            const _modal = $('#termModal'),
+                _form = $('#termForm'),
+                _btn = $('#btn_save'),
+                _btnAction = '';
+
+            if (_form[0].checkValidity() === true) {
+                if (_btn.html() == 'Delete') {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Deleting ...').addClass('disabled').attr('disabled', true);
+                } else if (_btn.html() == 'Add') {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Adding term ...').addClass('disabled').attr('disabled', true);
+                } else {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Updating ...').addClass('disabled').attr('disabled', true);
+                }
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ $post_url }}',
+                    data: formData,
+                    success: function (response) {
+                        alert("Data saved successfully!");
+                        $('#termModal').modal('toggle');
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert("Oops! Something went wrong! Please try again later.");
+                        console.log("encounted error", error);
+                    }
+                });
+            }
+            _form.addClass('was-validated');
+        });
+
+        $('#btn_cancel_termModal').on('click', function (event) {
+            event.preventDefault();
+            $('#termModal').modal('hide');
+        });
+
+        $('#termModal').on('hidden.bs.modal', function () {
+            $('#termForm')[0].reset();
+        });
+
+        $('#searchButton').click(function () {
+            var searchText = $('#searchBox').val().toLowerCase();
+            $('#divAlphaTerms').find('li').hide();
+        //    $('#divAlphaTerms > ul').hide(); 
+            $('#divAlphaTerms').find('li').filter(function () {
+                return $(this).text().toLowerCase().includes(searchText);
+            }).show();
+        });
+
+        $('#searchBox').on('keyup', function () {
+            var searchText = $('#searchBox').val().toLowerCase();
+            //$('#divAlphaTerms').find('li').hide();
+            $('#divAlphaTerms').find('ul').filter(function () {
+                $('#divAlphaTerms > ul').hide(); 
+                return $(this).text().toLowerCase().includes(searchText);
+            }).show();
+        });
+
+        $('#alphaButtons').on('click', '.alphabet-button', function (e) {
+            e.preventDefault();
+            var value = this.dataset.value;
+
+            if (!isNaN(parseInt(value))) {
+                $('#divAlphaTerms > ul').hide().filter(function () {
+                     return /^\d/.test($(this).text().trim());
+                        
+                }).show(); 
+            } else {
+                selectedAlphabet = $(this).data('alphabet').toUpperCase();
+                $('#divAlphaTerms > ul').hide(); 
+                $(`#divAlphaTerms > ul[data-ref='${selectedAlphabet}']`).show(); 
+            }
+        });
+
+        $("#btn_back").on('click', function (e) {
+            e.preventDefault();
+
+            $("#divSearchForTerms").hide();
+            $("#divTopTerms").show();
+            $('#divAlphaTerms h2').text('');
+        });
+
+        $("#languageSelect").on("change", function () {
+            const selectedLanguage = this.value;
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("GET", `/get-terms?language=${selectedLanguage}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const terms = JSON.parse(xhr.responseText);
+
+                    // Update the 'termsContainer' with the terms received from the server
+                    document.getElementById("termsContainer").innerHTML = terms;
+                }
+            };
+            xhr.send();
+        });
+
+    });
+
+    function getTermDescription() {
+        $('.single').on('click', function (event) {
+            event.preventDefault();
+        })
+    }
+
+    function chunkArray(array, size) {
+        var result = [];
+        for (var i = 0; i < array.length; i += size) {
+            result.push(array.slice(i, i + size));
+        }
+
+        return result;
+    }
+
+    function resetAlphaTerms() {
+        $('#divAlphaTerms').empty();
+    }
+
+    function checkEmptyAlphabetList() {
+        var alphabetHeaders = $('#divAlphaTerms').find('ul');
+        alphabetHeaders.each(function () {
+            var headerLetter = $(this).text();
+            var alphabetList = $('#divAlphaTerms').find('li:contains(' + headerLetter + ')');
+            var noTermsMessage = $(this).next('.no-terms-message');
+            if (alphabetList.length === 0) {
+                noTermsMessage.show();
+            } else {
+                noTermsMessage.hide();
+            }
+        });
+    }
+</script>

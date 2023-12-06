@@ -1,0 +1,257 @@
+{% foreach($scripts as $script): %}
+<script src="{{$script}}" type="text/javascript"></script>
+{% endforeach; %}
+
+<script type="text/javascript">
+    jQuery.fn.exists = function () { return this.length > 0; }
+
+    $(document).ready(function () {
+        var clickedAlphabet = '';
+        var glossary_action = '';
+        var alphabets = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+        $("#divSearchForTerms").hide();
+
+        $('#glossary-body').on('click',
+            '#action_buttons button, #action_buttons button .fa, #btn_new_term',
+            function (event) {
+                event.preventDefault();
+
+                const _btn = $(this);
+                const _btn_action = $(event.target).attr("data-action");
+                console.log("button action", _btn);
+
+                switch (_btn_action) {
+                    case "new-term":
+                        $("#termDeleteDiv").hide();
+                        $("#termDetailsDiv").show();
+                        $('#termModalLabel').html('Adding new term');
+                        $('#inp_term_type').val('addGlossaryTerm');
+                        $('#btn_save').html('Add');
+
+                        break;
+                    case "edit-term":
+                        $("#termDeleteDiv, #faculty-section").hide();
+                        $("#termDetailsDiv").show();
+
+                        $('#termModalLabel').html(`Editing: ${_btn.data('term_name')}`);
+                        $('#inp_term_type').val('updateGlossaryTerm');
+                        $('#inp_term_id').val(_btn.data('term_id'));
+                        $('#term_faculty').val(_btn.data('term_domain'));
+                        $('#term_name').val(_btn.data('term_name'));
+                        $('#term_definition').val(_btn.data('term_description'));
+
+                        break;
+                    case "delete-term":
+                        $('#termModalLabel').html(`Deleting <i> '${_btn.data('term_name')}' </i>`);
+                        $("#termDetailsDiv").hide();
+                        $("#termDeleteDiv").show();
+                        $('#inp_term_id').val(_btn.data('term_id'));
+                        $('#btn_save').html('Delete');
+                        $('#term_faculty_id, #term_faculty, #term_name, #term_definition').prop('disabled', true);
+                        $("#termDeleteLabel").html(`Are you sure you want to delete <i>' ${_btn.data('term_name')} '</i> ?`);
+                        $('#inp_term_type').val('deleteGlossaryTerm');
+
+                        break;
+                }
+
+                $('#termModal').modal('show');
+            });
+
+        $("#domain-dropdown").on("click", ".dropdown-item", function (event) {
+            event.preventDefault();
+
+            $('#term_faculty').val($(this).data("value"));
+            $('#term_faculty_id').val($(this).data("id"));
+            console.log("Selected Item: " + $(this).data("id"));
+        });
+
+        $("#itemList").on("click", ".delete-btn", function () {
+            var listItem = $(this).closest("li");
+            var itemId = listItem.data("id");
+
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('post_url '),
+                data: { id: itemId },
+                success: function (response) {
+                    if (response === "success") {
+                        listItem.remove();
+                    } else {
+                        alert("Failed to delete the item.");
+                    }
+                },
+                error: function () {
+                    alert("Error occurred while deleting the item.");
+                }
+            });
+        });
+
+        $("#termForm").submit(function (event) {
+            event.preventDefault();
+
+            const _modal = $('#termModal'),
+                _form = $('#termForm'),
+                _btn = $('#btn_save'),
+                _btnAction = '';
+
+            if (_form[0].checkValidity() === true) {
+                if (_btn.html() == 'Delete') {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Deleting ...').addClass('disabled').attr('disabled', true);
+                } else if (_btn.html() == 'Add') {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Adding term ...').addClass('disabled').attr('disabled', true);
+                } else {
+                    _btn.html('<i class="fa fa-cog fa-spin"></i>&nbsp;&nbsp;Updating ...').addClass('disabled').attr('disabled', true);
+                }
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ $post_url }}',
+                    data: formData,
+                    success: function (response) {
+                        alert("Data saved successfully!");
+                        $('#termModal').modal('toggle');
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert("Oops! Something went wrong! Please try again later.");
+                        console.log("encounted error", error);
+                    }
+                });
+            }
+            _form.addClass('was-validated');
+        });
+
+        $('#btn_cancel_termModal').on('click', function (event) {
+            event.preventDefault();
+            $('#termModal').modal('hide');
+        });
+
+        $('#termModal').on('hidden.bs.modal', function () {
+            $('#termForm')[0].reset();
+        });
+
+        $('#searchButton').click(function () {
+            var searchText = $('#searchBox').val().toLowerCase();
+            filterTerms(searchText);
+        });
+
+        $('#searchBox').on('keyup', function () {
+            var searchText = $('#searchBox').val().toLowerCase();
+            filterTerms(searchText);
+        });
+
+        $("#viewAll").on('click', function (e) {
+            e.preventDefault();
+            populateAllTerms();
+            window.location.href = 'templates/glossary-body-all.html';
+            url: '{{ $post_url }}'
+        });
+
+        $("#btn_back").on('click', function (e) {
+            e.preventDefault();
+
+            $("#divSearchForTerms").hide();
+            $("#divTopTerms").show();
+            $('#divAlphaTerms h2').text('');
+        });
+
+        $("#languageSelect").on("change", function () {
+            const selectedLanguage = $(this).val();
+
+            $.ajax({
+                url: `/get-terms?language=${selectedLanguage}`,
+                method: "GET",
+                success: function (terms) {
+                    // Update the 'termsContainer' with the terms received from the server
+                    $("#termsContainer").html(terms);
+                },
+                error: function (xhr, status, error) {
+                    // Handle error cases if needed
+                    console.error(error);
+                }
+            });
+        });
+
+    });
+
+    function getTermDescription() {
+        $('.single').on('click', function (event) {
+            event.preventDefault();
+        })
+    }
+
+    function filterTerms(searchText) {
+        $('#divAlphaTerms').find('li').hide();
+        $('#divAlphaTerms').find('li').filter(function () {
+            return $(this).text().toLowerCase().includes(searchText);
+        }).show();
+    }
+
+    function populateAllTerms() {
+        var domain_terms = {{ json_encode($all_terms)
+    }};
+    var termsByLetter = {};
+    var alphabetHeaders = {};
+    var currentLetter = null;
+    $('#divAlphaTerms').find('.no-terms-message').hide();
+    resetAlphaTerms();
+
+    $.each(domain_terms, function (index, row) {
+        var term = row.term;
+        var definition = row.description;
+        var domain = row.domain;
+        var firstLetter = term.charAt(0).toUpperCase();
+        $('#divAlphaTerms').find('h2:contains(' + firstLetter + ')').next('.no-terms-message').hide();
+        console.log(term);
+        if (firstLetter !== currentLetter) {
+            $('#divAlphaTerms').append('<h2>' + firstLetter + '</h2>');
+            var $noTermsMessage = $('<p class="no-terms-message">No terms found!</p>').hide();
+            $('#divAlphaTerms').append($noTermsMessage);
+            alphabetHeaders[firstLetter] = $('#divAlphaTerms').find('h2:contains(' + firstLetter + ')');
+            alphabetHeaders[firstLetter].after($noTermsMessage);
+            currentLetter = firstLetter;
+        }
+
+        var $termLi = $('<li><a href="#" class="term-link">' + term + '</a></li>');
+        var $alertDiv = $('<div class="alert alert-info" role="alert"><strong>' + domain + '</strong><br/>' + definition + '</div>').hide();
+
+        $termLi.append($alertDiv);
+        $('#divAlphaTerms').append($termLi);
+
+        $termLi.find('.term-link').on('click', function (e) {
+            e.preventDefault();
+            $alertDiv.slideToggle();
+        });
+    });
+    }
+
+    function resetAlphaTerms() {
+        $('#divAlphaTerms').empty();
+    }
+
+    function filterTermsByAlphabet(selectedAlphabet) {
+        // $('#divAlphaTerms').find('li:contains("' + selectedAlphabet + '")').show();
+
+        $('#divAlphaTerms').find('li').hide().filter(function () {
+            return $(this).text().charAt(0).toUpperCase() === selectedAlphabet;
+        }).show();
+
+        $('#divAlphaTerms').find('h2:contains(' + selectedAlphabet + ')').show();
+        checkEmptyAlphabetList();
+    }
+
+    function checkEmptyAlphabetList() {
+        var alphabetHeaders = $('#divAlphaTerms').find('h2');
+        alphabetHeaders.each(function () {
+            var headerLetter = $(this).text();
+            var alphabetList = $('#divAlphaTerms').find('li:contains(' + headerLetter + ')');
+            var noTermsMessage = $(this).next('.no-terms-message');
+            if (alphabetList.length === 0) {
+                noTermsMessage.show();
+            } else {
+                noTermsMessage.hide();
+            }
+        });
+    }
+</script>
